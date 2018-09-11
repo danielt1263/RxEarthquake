@@ -26,35 +26,37 @@ class EarthquakeListViewModel {
     let displayEarthquake: Driver<Earthquake>
 
 	init(_ inputs: UIInputs, http: Observable<NetworkResponse>) {
-		let networkTriggers = Observable.merge(inputs.refreshTrigger, inputs.viewAppearTrigger)
+		
+		let earthquakeSummary = http
+			.filter { $0.request == URLRequest.earthquakeSummary }
+
+		let earthquakeSummaryServerResponse = earthquakeSummary
+			.map { $0.successResponse }
+			.unwrap()
+
+		let failure = earthquakeSummaryServerResponse
+			.filter { $0.1.statusCode / 100 != 2 }
+			.map { "There was a server error (\($0))" }
+			.asDriver(onErrorJustReturn: "")
 
         displayEarthquake = inputs.selectEarthquake
             .asDriver(onErrorRecover: { _ in fatalError() })
         
-		networkRequest = networkTriggers
+		networkRequest = Observable.merge(inputs.refreshTrigger, inputs.viewAppearTrigger)
 			.map { URLRequest.earthquakeSummary }
 			.asDriver(onErrorRecover: { _ in fatalError() })
 
-		earthquakes = http
-			.map { $0.successResponse }
-			.unwrap()
-			.filter { $0.1.statusCode / 100 == 2 && $0.1.url! == URLRequest.earthquakeSummary.url! }
+		earthquakes = earthquakeSummaryServerResponse
+			.filter { $0.1.statusCode / 100 == 2 }
 			.map { Earthquake.earthquakes(from: $0.0) }
 			.asDriver(onErrorJustReturn: [])
 
-		endRefreshing = http
+		endRefreshing = earthquakeSummary
 			.map { _ in }
 			.throttle(0.5, scheduler: MainScheduler.instance)
 			.asDriver(onErrorJustReturn: ())
 
-		let failure = http
-			.map { $0.successResponse }
-			.unwrap()
-			.filter { $0.1.statusCode / 100 != 2 && $0.1.url! == URLRequest.earthquakeSummary.url! }
-			.map { "There was a server error (\($0))" }
-			.asDriver(onErrorJustReturn: "")
-
-		let error = http
+		let error = earthquakeSummary
 			.map { $0.failureResponse }
 			.unwrap()
 			.map { $0.localizedDescription }
