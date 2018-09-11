@@ -34,6 +34,12 @@ class EarthquakeListViewModel {
 			.map { $0.successResponse }
 			.unwrap()
 
+		let error = earthquakeSummary
+			.map { $0.failureResponse }
+			.unwrap()
+			.map { $0.localizedDescription }
+			.asDriver(onErrorJustReturn: "")
+
 		let failure = earthquakeSummaryServerResponse
 			.filter { $0.1.statusCode / 100 != 2 }
 			.map { "There was a server error (\($0))" }
@@ -56,12 +62,6 @@ class EarthquakeListViewModel {
 			.throttle(0.5, scheduler: MainScheduler.instance)
 			.asDriver(onErrorJustReturn: ())
 
-		let error = earthquakeSummary
-			.map { $0.failureResponse }
-			.unwrap()
-			.map { $0.localizedDescription }
-			.asDriver(onErrorJustReturn: "")
-
-		errorMessage = Driver.merge(failure, error)
+		errorMessage = Driver.merge(error, failure)
 	}
 }
