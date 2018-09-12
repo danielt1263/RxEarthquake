@@ -23,3 +23,7 @@ In my code, I strive for a more output centric approach. This means there is onl
 ## Declarative Style
 
 Most example programs are written in an imparative style, where any particular line of code represents a step in a process and doesn't tell you anything about the process as a whole. Writing with reactive extensions gives me the chance to write code in a more declarative style where each line of code doesn't just represent a step in a process, but rather it represents a fundimental truth, something that will always be the case. I wrote a short article about this subject. [Imperative vs Declarative Programming](https://medium.com/@danielt1263/imperative-vs-declarative-programming-a74f6cceff0e)
+
+---
+
+If you have any questions about how the code is written, or about the code itself, I would love to read them. Post an issue with your question and I'll do my best to respond.
