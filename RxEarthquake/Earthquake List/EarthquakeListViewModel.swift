@@ -23,10 +23,10 @@ class EarthquakeListViewModel {
 	let errorMessage: Driver<String>
 
 	let networkRequest: Driver<URLRequest>
-    let displayEarthquake: Driver<Earthquake>
+	let displayEarthquake: Driver<Earthquake>
 
 	init(_ inputs: UIInputs, http: Observable<NetworkResponse>) {
-		
+
 		let earthquakeSummary = http
 			.filter { $0.request == URLRequest.earthquakeSummary }
 
@@ -45,9 +45,9 @@ class EarthquakeListViewModel {
 			.map { "There was a server error (\($0))" }
 			.asDriver(onErrorJustReturn: "")
 
-        displayEarthquake = inputs.selectEarthquake
-            .asDriver(onErrorRecover: { _ in fatalError() })
-        
+		displayEarthquake = inputs.selectEarthquake
+			.asDriver(onErrorRecover: { _ in fatalError() })
+
 		networkRequest = Observable.merge(inputs.refreshTrigger, inputs.viewAppearTrigger)
 			.map { URLRequest.earthquakeSummary }
 			.asDriver(onErrorRecover: { _ in fatalError() })
@@ -65,3 +65,4 @@ class EarthquakeListViewModel {
 		errorMessage = Driver.merge(error, failure)
 	}
 }
+

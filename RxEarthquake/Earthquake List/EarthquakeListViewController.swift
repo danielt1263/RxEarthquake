@@ -43,4 +43,3 @@ class EarthquakeListViewController: UITableViewController {
 
 	let bag = DisposeBag()
 }
-

@@ -36,12 +36,12 @@ struct ShareInfo {
 }
 
 class EarthquakeDetailViewModel {
-    struct UIInputs {
+	struct UIInputs {
 		let moreInformation: Observable<Void>
-        let share: Observable<UIBarButtonItem>
-    }
+		let share: Observable<UIBarButtonItem>
+	}
 
-    let depth: Driver<String>
+	let depth: Driver<String>
 	let distance: Driver<String>
 	let magnitudeString: Driver<String>
 	let magnitudeDecimal: Driver<Double>
@@ -55,7 +55,7 @@ class EarthquakeDetailViewModel {
 	init(_ inputs: UIInputs, earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) {
 
 		depth = earthquake.map { depthFormatter.string(fromMeters: $0.depth) }
-            .asDriver(onErrorJustReturn: "???")
+			.asDriver(onErrorJustReturn: "???")
 
 		distance = Observable.combineLatest(earthquake, userLocation)
 			.map { $1.distance(from: $0.location) }
@@ -100,14 +100,14 @@ class EarthquakeDetailViewModel {
 			.map { ($0.0!, $0.1, $0.2) }
 			.map { ShareInfo(items: [$0.0, $0.1], barButtonItem: $0.2)}
 			.asDriver(onErrorRecover: { fatalError($0.localizedDescription) })
-    }
+	}
 }
 
 private
 let depthFormatter: LengthFormatter = {
-    let result = LengthFormatter()
-    result.isForPersonHeightUse = false
-    return result
+	let result = LengthFormatter()
+	result.isForPersonHeightUse = false
+	return result
 }()
 
 private
@@ -136,4 +136,3 @@ let timestampFormatter: DateFormatter = {
 
 	return timestampFormatter
 }()
-

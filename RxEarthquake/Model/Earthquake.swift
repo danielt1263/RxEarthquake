@@ -72,4 +72,3 @@ extension Earthquake {
 struct Identifier<T>: RawRepresentable {
 	let rawValue: String
 }
-

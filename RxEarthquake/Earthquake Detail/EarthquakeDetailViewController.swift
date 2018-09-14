@@ -19,12 +19,12 @@ class EarthquakeDetailViewController: UITableViewController {
 	@IBOutlet weak var map: MKMapView!
 	@IBOutlet weak var nameLabel: UILabel!
 	@IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var shareButton: UIBarButtonItem!
+	@IBOutlet weak var shareButton: UIBarButtonItem!
 
-    var viewModelFactory: (EarthquakeDetailViewModel.UIInputs) -> EarthquakeDetailViewModel = { _ in fatalError("Must provide factory function first.") }
+	var viewModelFactory: (EarthquakeDetailViewModel.UIInputs) -> EarthquakeDetailViewModel = { _ in fatalError("Must provide factory function first.") }
 
 	override func viewDidLoad() {
-        super.viewDidLoad()
+		super.viewDidLoad()
 
 		let tableView = self.tableView!
 		let shareButton = self.shareButton!
@@ -35,7 +35,7 @@ class EarthquakeDetailViewController: UITableViewController {
 				.map { _ in },
 			share: shareButton.rx.tap.map { shareButton }
 		)
-        let viewModel = viewModelFactory(inputs)
+		let viewModel = viewModelFactory(inputs)
 
 		viewModel.depth
 			.drive(depthLabel.rx.text)
@@ -73,10 +73,10 @@ class EarthquakeDetailViewController: UITableViewController {
 				map.addAnnotation(annotation)
 			})
 			.disposed(by: bag)
-    }
+	}
 
 	private let magnitude = BehaviorRelay<Double>(value: 0)
-    private let bag = DisposeBag()
+	private let bag = DisposeBag()
 }
 
 extension EarthquakeDetailViewController: MKMapViewDelegate {

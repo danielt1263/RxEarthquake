@@ -28,8 +28,8 @@ func data(request: URLRequest) -> Observable<NetworkResponse> {
 		}
 		task.resume()
 		return Disposables.create { task.cancel() }
-	}
-	.trackActivity(networkActivity)
+		}
+		.trackActivity(networkActivity)
 }
 
 enum NetworkResponse {
@@ -42,7 +42,7 @@ enum NetworkResponse {
 			return request
 		}
 	}
-	
+
 	var successResponse: (Data, HTTPURLResponse)? {
 		if case let .success(_, data, response) = self {
 			return (data, response)
