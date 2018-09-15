@@ -22,7 +22,6 @@ class Coordinator {
 		let detail = detailNav.childViewControllers[0] as! EarthquakeDetailViewController
 		let selectedEarthquake = self.selectedEarthquake
 		let userLocation = self.locationManager.userLocation
-		let http = self.http
 		let bag = self.bag
 
 		selectedEarthquake
@@ -56,14 +55,11 @@ class Coordinator {
 		}
 
 		main.viewModelFactory = { inputs -> EarthquakeListViewModel in
-			let vm = EarthquakeListViewModel(inputs, http: http.output)
+			let vm = EarthquakeListViewModel(inputs, dataTask: dataTask)
 			vm.displayEarthquake
 				.drive(selectedEarthquake)
 				.disposed(by: bag)
 
-			vm.networkRequest
-				.drive(http)
-				.disposed(by: bag)
 			return vm
 		}
 
@@ -73,7 +69,6 @@ class Coordinator {
 
 	private let locationManager = LocationManager()
 	private let selectedEarthquake = BehaviorRelay<Earthquake?>(value: nil)
-	private let http: RxCycle<URLRequest, NetworkResponse> = RxCycle(data(request:))
 	private let bag = DisposeBag()
 
 }

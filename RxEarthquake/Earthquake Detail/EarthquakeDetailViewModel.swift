@@ -41,6 +41,7 @@ class EarthquakeDetailViewModel {
 		let share: Observable<UIBarButtonItem>
 	}
 
+	// UI outputs
 	let depth: Driver<String>
 	let distance: Driver<String>
 	let magnitudeString: Driver<String>
@@ -49,57 +50,62 @@ class EarthquakeDetailViewModel {
 	let name: Driver<String>
 	let time: Driver<String>
 
+	// coordinator outputs
 	let moreInformation: Driver<MoreInformation>
 	let share: Driver<ShareInfo>
 
 	init(_ inputs: UIInputs, earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) {
 
 		depth = earthquake.map { depthFormatter.string(fromMeters: $0.depth) }
-			.asDriver(onErrorJustReturn: "???")
+			.asDriverLogError()
 
 		distance = Observable.combineLatest(earthquake, userLocation)
 			.map { $1.distance(from: $0.location) }
 			.map { distanceFormatter.string(fromMeters: $0) }
-			.asDriver(onErrorJustReturn: "???")
+			.asDriverLogError()
 
 		magnitudeString = earthquake
 			.map { $0.magnitude }
 			.map { magnitudeFormatter.string(from: $0 as NSNumber) }
 			.unwrap()
-			.asDriver(onErrorJustReturn: "???")
+			.asDriverLogError()
 
 		magnitudeDecimal = earthquake
 			.map { $0.magnitude }
-			.asDriver(onErrorJustReturn: 0)
+			.asDriverLogError()
 
 		coordinate = earthquake
 			.map { $0.coordinate }
 			.distinctUntilChanged { $0.latitude == $1.latitude && $0.longitude == $1.longitude }
-			.asDriver(onErrorJustReturn: kCLLocationCoordinate2DInvalid)
+			.asDriverLogError()
 
 		name = earthquake
 			.map { $0.name }
-			.asDriver(onErrorJustReturn: "???")
+			.asDriverLogError()
 
 		time = earthquake
 			.map { $0.timestamp }
 			.map { timestampFormatter.string(from: $0) }
-			.asDriver(onErrorJustReturn: "???")
+			.asDriverLogError()
 
 		moreInformation = inputs.moreInformation
 			.withLatestFrom(earthquake)
 			.map { $0.weblink }
 			.map { URL(string: $0) }
 			.map { $0 != nil ? MoreInformation.url($0!) : MoreInformation.alert(title: "No Information", message: "No other information is available for this earthquake") }
-			.asDriver(onErrorRecover: { _ in fatalError() })
+			.asDriverLogError()
 
 		share = inputs.share
 			.withLatestFrom(earthquake) { ($0, $1) }
-			.map { (URL(string: $0.1.weblink), $0.1.location, $0.0) }
-			.filter { $0.0 != nil }
-			.map { ($0.0!, $0.1, $0.2) }
-			.map { ShareInfo(items: [$0.0, $0.1], barButtonItem: $0.2)}
-			.asDriver(onErrorRecover: { fatalError($0.localizedDescription) })
+			.map { (barButtonItem, earthquake) -> ShareInfo in
+				if let url = URL(string: earthquake.weblink) {
+					return ShareInfo(items: [url, earthquake.location], barButtonItem: barButtonItem)
+				}
+				else {
+					return ShareInfo(items: [earthquake.location], barButtonItem: barButtonItem)
+				}
+			}
+			.asDriverLogError()
 	}
 }
 

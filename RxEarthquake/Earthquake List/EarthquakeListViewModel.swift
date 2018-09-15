@@ -18,51 +18,51 @@ class EarthquakeListViewModel {
 		let viewAppearTrigger: Observable<Void>
 	}
 
+	// UI outputs
 	let earthquakes: Driver<[Earthquake]>
 	let endRefreshing: Driver<Void>
 	let errorMessage: Driver<String>
 
-	let networkRequest: Driver<URLRequest>
+	// coordinator outputs
 	let displayEarthquake: Driver<Earthquake>
 
-	init(_ inputs: UIInputs, http: Observable<NetworkResponse>) {
+	init(_ inputs: UIInputs, dataTask: @escaping DataTask) {
 
-		let earthquakeSummary = http
-			.filter { $0.request == URLRequest.earthquakeSummary }
+		let networkResponse = Observable.merge(inputs.refreshTrigger, inputs.viewAppearTrigger)
+			.map { URLRequest.earthquakeSummary }
+			.flatMapLatest { dataTask($0) }
+			.share()
 
-		let earthquakeSummaryServerResponse = earthquakeSummary
+		let earthquakeSummaryServerResponse = networkResponse
 			.map { $0.successResponse }
 			.unwrap()
 
-		let error = earthquakeSummary
+		let error = networkResponse
 			.map { $0.failureResponse }
 			.unwrap()
 			.map { $0.localizedDescription }
-			.asDriver(onErrorJustReturn: "")
+			.asDriverLogError()
 
 		let failure = earthquakeSummaryServerResponse
 			.filter { $0.1.statusCode / 100 != 2 }
 			.map { "There was a server error (\($0))" }
-			.asDriver(onErrorJustReturn: "")
-
-		displayEarthquake = inputs.selectEarthquake
-			.asDriver(onErrorRecover: { _ in fatalError() })
-
-		networkRequest = Observable.merge(inputs.refreshTrigger, inputs.viewAppearTrigger)
-			.map { URLRequest.earthquakeSummary }
-			.asDriver(onErrorRecover: { _ in fatalError() })
+			.asDriverLogError()
 
 		earthquakes = earthquakeSummaryServerResponse
 			.filter { $0.1.statusCode / 100 == 2 }
 			.map { Earthquake.earthquakes(from: $0.0) }
-			.asDriver(onErrorJustReturn: [])
+			.asDriverLogError()
 
-		endRefreshing = earthquakeSummary
+		endRefreshing = networkResponse
 			.map { _ in }
 			.throttle(0.5, scheduler: MainScheduler.instance)
-			.asDriver(onErrorJustReturn: ())
+			.asDriverLogError()
 
 		errorMessage = Driver.merge(error, failure)
+
+		displayEarthquake = inputs.selectEarthquake
+			.asDriverLogError()
 	}
 }
 
+typealias DataTask = (URLRequest) -> Observable<NetworkResponse>

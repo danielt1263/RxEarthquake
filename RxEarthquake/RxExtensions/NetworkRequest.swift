@@ -14,44 +14,37 @@ let isNetworkActive: Driver<Bool> = {
 	return networkActivity.asDriver()
 }()
 
-func data(request: URLRequest) -> Observable<NetworkResponse> {
+func dataTask(with request: URLRequest) -> Observable<NetworkResponse> {
 	return Observable.create { observer in
 		let task = URLSession.shared.dataTask(with: request) { data, response, error in
 			if let data = data, let response = response as? HTTPURLResponse {
-				observer.onNext(.success(request, data, response))
+				observer.onNext(.success(data, response))
 				observer.onCompleted()
 			}
 			else {
-				observer.onNext(.failure(request, error ?? RxError.unknown))
+				observer.onNext(.failure(error ?? RxError.unknown))
 				observer.onCompleted()
 			}
 		}
 		task.resume()
 		return Disposables.create { task.cancel() }
-		}
-		.trackActivity(networkActivity)
+	}
+	.trackActivity(networkActivity)
 }
 
 enum NetworkResponse {
-	case success(URLRequest, Data, HTTPURLResponse)
-	case failure(URLRequest, Error)
-
-	var request: URLRequest {
-		switch self {
-		case let .success(request, _, _), let .failure(request, _):
-			return request
-		}
-	}
+	case success(Data, HTTPURLResponse)
+	case failure(Error)
 
 	var successResponse: (Data, HTTPURLResponse)? {
-		if case let .success(_, data, response) = self {
+		if case let .success(data, response) = self {
 			return (data, response)
 		}
 		return nil
 	}
 
 	var failureResponse: Error? {
-		if case let .failure(_, error) = self {
+		if case let .failure(error) = self {
 			return error
 		}
 		return nil
