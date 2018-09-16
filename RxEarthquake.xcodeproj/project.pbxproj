@@ -11,7 +11,6 @@
 		72860D732144463E00DCDD39 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D722144463E00DCDD39 /* CLLocationManager+Rx.swift */; };
 		72860D752144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D742144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift */; };
 		72860D7921444A0800DCDD39 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D7821444A0800DCDD39 /* NetworkRequest.swift */; };
-		72860D7B21446D8F00DCDD39 /* DriverUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D7A21446D8F00DCDD39 /* DriverUnwrap.swift */; };
 		72860D7D21446DD300DCDD39 /* UIViewController+top.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D7C21446DD300DCDD39 /* UIViewController+top.swift */; };
 		72860D7F21449DC100DCDD39 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D7E21449DC100DCDD39 /* LocationManager.swift */; };
 		729D5E1D214DB33000A320C9 /* AsDriverLogError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729D5E1C214DB33000A320C9 /* AsDriverLogError.swift */; };
@@ -36,7 +35,6 @@
 		72860D722144463E00DCDD39 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
 		72860D742144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCLLocationManagerDelegateProxy.swift; sourceTree = "<group>"; };
 		72860D7821444A0800DCDD39 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
-		72860D7A21446D8F00DCDD39 /* DriverUnwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverUnwrap.swift; sourceTree = "<group>"; };
 		72860D7C21446DD300DCDD39 /* UIViewController+top.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+top.swift"; sourceTree = "<group>"; };
 		72860D7E21449DC100DCDD39 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		729D5E1C214DB33000A320C9 /* AsDriverLogError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsDriverLogError.swift; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 			children = (
 				72B7AF30213F56460052419D /* ActivityIndicator.swift */,
 				72860D722144463E00DCDD39 /* CLLocationManager+Rx.swift */,
-				72860D7A21446D8F00DCDD39 /* DriverUnwrap.swift */,
 				72860D7E21449DC100DCDD39 /* LocationManager.swift */,
 				72860D7821444A0800DCDD39 /* NetworkRequest.swift */,
 				72860D742144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift */,
@@ -290,7 +287,6 @@
 				72F60B16213C2AD90038F961 /* Earthquake.swift in Sources */,
 				72B7AF2F213F562E0052419D /* Request.swift in Sources */,
 				72F60B0C213C1E0A0038F961 /* EarthquakeDetailViewController.swift in Sources */,
-				72860D7B21446D8F00DCDD39 /* DriverUnwrap.swift in Sources */,
 				72F60B0A213C1DDF0038F961 /* EarthquakeListViewController.swift in Sources */,
 				72F60B13213C29BF0038F961 /* EarthquakeTableViewCell.swift in Sources */,
 				72860D752144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift in Sources */,

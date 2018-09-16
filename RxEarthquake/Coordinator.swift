@@ -35,15 +35,11 @@ class Coordinator {
 		detail.viewModelFactory = { inputs -> EarthquakeDetailViewModel in
 			let vm = EarthquakeDetailViewModel(inputs, earthquake: selectedEarthquake.unwrap(), userLocation: userLocation)
 
-			vm.moreInformation
-				.map { $0.url }
-				.unwrap()
+			vm.presentURL
 				.drive(onNext: (presentSafariViewController(url:)))
 				.disposed(by: bag)
 
-			vm.moreInformation
-				.map { $0.alert }
-				.unwrap()
+			vm.presentAlert
 				.drive(onNext: (presentAlertViewController(title:message:)))
 				.disposed(by: bag)
 

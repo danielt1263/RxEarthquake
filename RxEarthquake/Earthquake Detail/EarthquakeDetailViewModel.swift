@@ -11,30 +11,6 @@ import RxSwift
 import RxCocoa
 import CoreLocation
 
-enum MoreInformation {
-	case url(URL)
-	case alert(title: String, message: String)
-
-	var url: URL? {
-		if case let .url(url) = self {
-			return url
-		}
-		return nil
-	}
-
-	var alert: (title: String, message: String)? {
-		if case let .alert(title, message) = self {
-			return (title, message)
-		}
-		return nil
-	}
-}
-
-struct ShareInfo {
-	let items: [Any]
-	let barButtonItem: UIBarButtonItem?
-}
-
 class EarthquakeDetailViewModel {
 	struct UIInputs {
 		let moreInformation: Observable<Void>
@@ -51,12 +27,19 @@ class EarthquakeDetailViewModel {
 	let time: Driver<String>
 
 	// coordinator outputs
-	let moreInformation: Driver<MoreInformation>
+	let presentURL: Driver<URL>
+	let presentAlert: Driver<(title: String, message: String)>
 	let share: Driver<ShareInfo>
 
 	init(_ inputs: UIInputs, earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) {
 
-		depth = earthquake.map { depthFormatter.string(fromMeters: $0.depth) }
+		let weblink = inputs.moreInformation
+			.withLatestFrom(earthquake)
+			.map { $0.weblink }
+			.map { URL(string: $0) }
+
+		depth = earthquake
+			.map { depthFormatter.string(fromMeters: $0.depth) }
 			.asDriverLogError()
 
 		distance = Observable.combineLatest(earthquake, userLocation)
@@ -88,11 +71,13 @@ class EarthquakeDetailViewModel {
 			.map { timestampFormatter.string(from: $0) }
 			.asDriverLogError()
 
-		moreInformation = inputs.moreInformation
-			.withLatestFrom(earthquake)
-			.map { $0.weblink }
-			.map { URL(string: $0) }
-			.map { $0 != nil ? MoreInformation.url($0!) : MoreInformation.alert(title: "No Information", message: "No other information is available for this earthquake") }
+		presentURL = weblink
+			.unwrap()
+			.asDriverLogError()
+
+		presentAlert = weblink
+			.filter { $0 == nil }
+			.map { _ in (title: "No Information", message: "No other information is available for this earthquake") }
 			.asDriverLogError()
 
 		share = inputs.share
@@ -107,6 +92,11 @@ class EarthquakeDetailViewModel {
 			}
 			.asDriverLogError()
 	}
+}
+
+struct ShareInfo {
+	let items: [Any]
+	let barButtonItem: UIBarButtonItem?
 }
 
 private
