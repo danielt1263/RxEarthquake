@@ -41,12 +41,10 @@ class EarthquakeListViewModel {
 			.map { $0.failureResponse }
 			.unwrap()
 			.map { $0.localizedDescription }
-			.asDriverLogError()
 
 		let failure = earthquakeSummaryServerResponse
 			.filter { $0.1.statusCode / 100 != 2 }
 			.map { "There was a server error (\($0))" }
-			.asDriverLogError()
 
 		earthquakes = earthquakeSummaryServerResponse
 			.filter { $0.1.statusCode / 100 == 2 }
@@ -58,7 +56,8 @@ class EarthquakeListViewModel {
 			.throttle(0.5, scheduler: MainScheduler.instance)
 			.asDriverLogError()
 
-		errorMessage = Driver.merge(error, failure)
+		errorMessage = Observable.merge(error, failure)
+			.asDriverLogError()
 
 		displayEarthquake = inputs.selectEarthquake
 			.asDriverLogError()
