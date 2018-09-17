@@ -12,8 +12,8 @@ import CoreLocation
 struct Earthquake {
 	typealias ID = Identifier<Earthquake>
 	let id: ID
-	let latitude: Double
 	let longitude: Double
+	let latitude: Double
 	let depth: Double
 	let magnitude: Double
 	let name: String
@@ -39,33 +39,20 @@ extension Earthquake {
 
 	init?(feature: [String: Any]) {
 		guard let earthquakeID = feature["id"] as? String, !earthquakeID.isEmpty else { return nil }
+		guard let geometry = feature["geometry"] as? [String: AnyObject] else { return nil }
+		guard let coordinates = geometry["coordinates"] as? [Double], coordinates.count > 2 else { return nil }
+		guard let properties = feature["properties"] as? [String: AnyObject] else { return nil }
+		guard let place = properties["place"] as? String else { return nil }
+		guard let mag = properties["mag"] as? Double else { return nil }
+		guard let time = properties["time"] as? Double else { return nil }
 		id = ID(rawValue: earthquakeID)
-
-		let geometry = feature["geometry"] as? [String: AnyObject] ?? [:]
-		if let coordinates = geometry["coordinates"] as? [Double], coordinates.count == 3 {
-			longitude = coordinates[0]
-			latitude = coordinates[1]
-			// `depth` is in km, but we want to store it in meters.
-			depth = coordinates[2] * 1000
-		}
-		else {
-			longitude = 0
-			latitude = 0
-			depth = 0
-		}
-
-		let properties = feature["properties"] as? [String: AnyObject] ?? [:]
-
-		name = properties["place"] as? String ?? ""
+		longitude = coordinates[0]
+		latitude = coordinates[1]
+		depth = coordinates[2] * 1000 // `depth` is in km, but we want to store it in meters.
+		magnitude = mag
+		name = place
+		timestamp = Date(timeIntervalSince1970: time / 1000)
 		weblink = properties["url"] as? String ?? ""
-		magnitude = properties["mag"] as? Double ?? 0.0
-
-		if let offset = properties["time"] as? Double {
-			timestamp = Date(timeIntervalSince1970: offset / 1000)
-		}
-		else {
-			timestamp = Date.distantFuture
-		}
 	}
 }
 
