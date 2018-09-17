@@ -49,8 +49,8 @@ class EarthquakeDetailViewController: UITableViewController {
 			.drive(magnitudeLabel.rx.text)
 			.disposed(by: bag)
 
-		viewModel.magnitudeDecimal
-			.drive(magnitude)
+		viewModel.magnitudeColor
+			.drive(magnitudeColor)
 			.disposed(by: bag)
 
 		viewModel.name
@@ -75,27 +75,15 @@ class EarthquakeDetailViewController: UITableViewController {
 			.disposed(by: bag)
 	}
 
-	private let magnitude = BehaviorRelay<Double>(value: 0)
+	private let magnitudeColor = BehaviorRelay<UIColor>(value: .red)
 	private let bag = DisposeBag()
 }
 
 extension EarthquakeDetailViewController: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 		let pin = (mapView.dequeueReusableAnnotationView(withIdentifier: "pin") as? MKPinAnnotationView) ?? MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
-
-		switch magnitude.value {
-		case 0..<3:
-			pin.pinTintColor = UIColor.gray
-		case 3..<4:
-			pin.pinTintColor = UIColor.blue
-		case 4..<5:
-			pin.pinTintColor = UIColor.orange
-		default:
-			pin.pinTintColor = UIColor.red
-		}
-
+		pin.pinTintColor = magnitudeColor.value
 		pin.isEnabled = false
-
 		return pin
 	}
 }

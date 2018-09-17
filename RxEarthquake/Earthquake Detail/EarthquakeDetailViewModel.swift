@@ -6,7 +6,7 @@
 //  Copyright © 2018 Daniel Tartaglia. MIT License.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
 import CoreLocation
@@ -21,7 +21,7 @@ class EarthquakeDetailViewModel {
 	let depth: Driver<String>
 	let distance: Driver<String>
 	let magnitudeString: Driver<String>
-	let magnitudeDecimal: Driver<Double>
+	let magnitudeColor: Driver<UIColor>
 	let coordinate: Driver<CLLocationCoordinate2D>
 	let name: Driver<String>
 	let time: Driver<String>
@@ -53,8 +53,19 @@ class EarthquakeDetailViewModel {
 			.unwrap()
 			.asDriverLogError()
 
-		magnitudeDecimal = earthquake
-			.map { $0.magnitude }
+		magnitudeColor = earthquake
+			.map {
+				switch $0.magnitude {
+				case 0..<3:
+					return UIColor.gray
+				case 3..<4:
+					return UIColor.blue
+				case 4..<5:
+					return UIColor.orange
+				default:
+					return UIColor.red
+				}
+			}
 			.asDriverLogError()
 
 		coordinate = earthquake
