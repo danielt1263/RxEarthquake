@@ -12,17 +12,12 @@ import CoreLocation
 struct Earthquake {
 	typealias ID = Identifier<Earthquake>
 	let id: ID
-	let longitude: Double
-	let latitude: Double
+	let coordinate: CLLocationCoordinate2D
 	let depth: Double
 	let magnitude: Double
 	let name: String
 	let timestamp: Date
 	let weblink: String
-
-	var coordinate: CLLocationCoordinate2D {
-		return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-	}
 
 	var location: CLLocation {
 		return CLLocation(coordinate: coordinate, altitude: -depth, horizontalAccuracy: kCLLocationAccuracyBest, verticalAccuracy: kCLLocationAccuracyBest, timestamp: timestamp)
@@ -46,8 +41,7 @@ extension Earthquake {
 		guard let mag = properties["mag"] as? Double else { return nil }
 		guard let time = properties["time"] as? Double else { return nil }
 		id = ID(rawValue: earthquakeID)
-		longitude = coordinates[0]
-		latitude = coordinates[1]
+		coordinate = CLLocationCoordinate2D(latitude: coordinates[1], longitude: coordinates[0])
 		depth = coordinates[2] * 1000 // `depth` is in km, but we want to store it in meters.
 		magnitude = mag
 		name = place

@@ -11,21 +11,23 @@ import RxSwift
 import RxCocoa
 import RxSwiftExt
 
-class EarthquakeListViewModel {
+struct EarthquakeListViewModel {
 	struct UIInputs {
-		let selectEarthquake: Observable<Earthquake>
+		let selectEarthquake: Observable<IndexPath>
 		let refreshTrigger: Observable<Void>
 		let viewAppearTrigger: Observable<Void>
 	}
 
 	// UI outputs
-	let earthquakes: Driver<[Earthquake]>
+	let earthquakeCellViewModels: Driver<[EarthquakeCellViewModel]>
 	let endRefreshing: Driver<Void>
 	let errorMessage: Driver<String>
 
 	// coordinator outputs
 	let displayEarthquake: Driver<Earthquake>
+}
 
+extension EarthquakeListViewModel {
 	init(_ inputs: UIInputs, dataTask: @escaping DataTask) {
 
 		let networkResponse = Observable.merge(inputs.refreshTrigger, inputs.viewAppearTrigger)
@@ -46,9 +48,12 @@ class EarthquakeListViewModel {
 			.filter { $0.1.statusCode / 100 != 2 }
 			.map { "There was a server error (\($0))" }
 
-		earthquakes = earthquakeSummaryServerResponse
+		let earthquakes = earthquakeSummaryServerResponse
 			.filter { $0.1.statusCode / 100 == 2 }
 			.map { Earthquake.earthquakes(from: $0.0) }
+
+		earthquakeCellViewModels = earthquakes
+			.map { $0.map { EarthquakeCellViewModel(earthquake: $0) } }
 			.asDriverLogError()
 
 		endRefreshing = networkResponse
@@ -60,6 +65,7 @@ class EarthquakeListViewModel {
 			.asDriverLogError()
 
 		displayEarthquake = inputs.selectEarthquake
+			.withLatestFrom(earthquakes) { $1[$0.row] }
 			.asDriverLogError()
 	}
 }

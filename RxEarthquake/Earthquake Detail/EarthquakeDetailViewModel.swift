@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import CoreLocation
 
-class EarthquakeDetailViewModel {
+struct EarthquakeDetailViewModel {
 	struct UIInputs {
 		let moreInformation: Observable<Void>
 		let share: Observable<UIBarButtonItem>
@@ -30,7 +30,9 @@ class EarthquakeDetailViewModel {
 	let presentURL: Driver<URL>
 	let presentAlert: Driver<(title: String, message: String)>
 	let share: Driver<ShareInfo>
+}
 
+extension EarthquakeDetailViewModel {
 	init(_ inputs: UIInputs, earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) {
 
 		let weblink = inputs.moreInformation

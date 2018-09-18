@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		093B834F21516C7E00E79E09 /* EarthquakeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093B834E21516C7E00E79E09 /* EarthquakeCellViewModel.swift */; };
 		14B838C6D1C066C3E2286C86 /* Pods_RxEarthquake.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5626FD14715A30ACB7C1961 /* Pods_RxEarthquake.framework */; };
 		72860D732144463E00DCDD39 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D722144463E00DCDD39 /* CLLocationManager+Rx.swift */; };
 		72860D752144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D742144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		029400B632F6B50296ED1F73 /* Pods-RxEarthquake.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxEarthquake.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxEarthquake/Pods-RxEarthquake.release.xcconfig"; sourceTree = "<group>"; };
+		093B834E21516C7E00E79E09 /* EarthquakeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeCellViewModel.swift; sourceTree = "<group>"; };
 		6815520D654C645DDB20A5AE /* Pods-RxEarthquake.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxEarthquake.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxEarthquake/Pods-RxEarthquake.debug.xcconfig"; sourceTree = "<group>"; };
 		72860D722144463E00DCDD39 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
 		72860D742144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCLLocationManagerDelegateProxy.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				72F60B09213C1DDF0038F961 /* EarthquakeListViewController.swift */,
 				72F60B12213C29BF0038F961 /* EarthquakeTableViewCell.swift */,
 				72B7AF33213F5FFE0052419D /* EarthquakeListViewModel.swift */,
+				093B834E21516C7E00E79E09 /* EarthquakeCellViewModel.swift */,
 			);
 			path = "Earthquake List";
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				72F9094A214354770065CD7F /* EarthquakeDetailViewModel.swift in Sources */,
 				72860D732144463E00DCDD39 /* CLLocationManager+Rx.swift in Sources */,
 				72F60B16213C2AD90038F961 /* Earthquake.swift in Sources */,
+				093B834F21516C7E00E79E09 /* EarthquakeCellViewModel.swift in Sources */,
 				72B7AF2F213F562E0052419D /* Request.swift in Sources */,
 				72F60B0C213C1E0A0038F961 /* EarthquakeDetailViewController.swift in Sources */,
 				72F60B0A213C1DDF0038F961 /* EarthquakeListViewController.swift in Sources */,

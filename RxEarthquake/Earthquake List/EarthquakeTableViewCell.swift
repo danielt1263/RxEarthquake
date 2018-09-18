@@ -18,49 +18,10 @@ class EarthquakeTableViewCell: UITableViewCell {
 
 	// MARK: Configuration
 
-	func configure(earthquake: Earthquake) {
-		timestampLabel.text = timestampFormatter.string(from: earthquake.timestamp)
-
-		magnitudeLabel.text = magnitudeFormatter.string(from: NSNumber(value: earthquake.magnitude))
-
-		locationLabel.text = earthquake.name
-
-		let imageName: String
-		switch earthquake.magnitude {
-		case 0..<2:
-			imageName = ""
-		case 2..<3:
-			imageName = "2.0"
-		case 3..<4:
-			imageName = "3.0"
-		case 4..<5:
-			imageName = "4.0"
-		default:
-			imageName = "5.0"
-		}
-
-		magnitudeImage.image = UIImage(named: imageName)
+	func configure(viewModel: EarthquakeCellViewModel) {
+		locationLabel.text = viewModel.location
+		timestampLabel.text = viewModel.timestamp
+		magnitudeLabel.text = viewModel.magnitude
+		magnitudeImage.image = viewModel.magnitudeImage
 	}
-
 }
-
-private
-let timestampFormatter: DateFormatter = {
-	let timestampFormatter = DateFormatter()
-
-	timestampFormatter.dateStyle = .medium
-	timestampFormatter.timeStyle = .medium
-
-	return timestampFormatter
-}()
-
-private
-let magnitudeFormatter: NumberFormatter = {
-	let magnitudeFormatter = NumberFormatter()
-
-	magnitudeFormatter.numberStyle = .decimal
-	magnitudeFormatter.maximumFractionDigits = 1
-	magnitudeFormatter.minimumFractionDigits = 1
-
-	return magnitudeFormatter
-}()

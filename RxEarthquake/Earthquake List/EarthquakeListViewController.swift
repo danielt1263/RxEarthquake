@@ -21,7 +21,7 @@ class EarthquakeListViewController: UITableViewController {
 		let refreshControl = self.refreshControl!
 
 		let inputs = EarthquakeListViewModel.UIInputs(
-			selectEarthquake: tableView.rx.modelSelected(Earthquake.self).asObservable(),
+			selectEarthquake: tableView.rx.itemSelected.asObservable(),
 			refreshTrigger: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
 			viewAppearTrigger: rx.methodInvoked(#selector(viewDidAppear(_:))).map { _ in })
 
@@ -29,8 +29,9 @@ class EarthquakeListViewController: UITableViewController {
 
 		tableView.dataSource = nil
 		tableView.delegate = nil
-		viewModel.earthquakes.drive(tableView.rx.items(cellIdentifier: "EarthquakeCell", cellType: EarthquakeTableViewCell.self)) { index, earthquake, cell in
-			cell.configure(earthquake: earthquake)
+		viewModel.earthquakeCellViewModels
+			.drive(tableView.rx.items(cellIdentifier: "EarthquakeCell", cellType: EarthquakeTableViewCell.self)) { index, viewModel, cell in
+				cell.configure(viewModel: viewModel)
 			}
 			.disposed(by: bag)
 
@@ -43,3 +44,4 @@ class EarthquakeListViewController: UITableViewController {
 
 	let bag = DisposeBag()
 }
+
