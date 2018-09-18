@@ -16,10 +16,10 @@ import SafariServices
 class Coordinator {
 
 	init(splitViewController: UISplitViewController) {
-		let mainNav = splitViewController.childViewControllers[0] as! UINavigationController
-		let main = mainNav.childViewControllers[0] as! EarthquakeListViewController
-		let detailNav = splitViewController.childViewControllers[1] as! UINavigationController
-		let detail = detailNav.childViewControllers[0] as! EarthquakeDetailViewController
+		let mainNav = splitViewController.children[0] as! UINavigationController
+		let main = mainNav.children[0] as! EarthquakeListViewController
+		let detailNav = splitViewController.children[1] as! UINavigationController
+		let detail = detailNav.children[0] as! EarthquakeDetailViewController
 		let selectedEarthquake = self.selectedEarthquake
 		let userLocation = self.locationManager.userLocation
 		let bag = self.bag
