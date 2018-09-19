@@ -100,9 +100,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
-                    <connections>
-                        <segue destination="NLB-vB-4wf" kind="showDetail" identifier="ShowEarthquake" id="6II-IP-1jc"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ci-St-vxw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -321,7 +318,4 @@
             <point key="canvasLocation" x="-261" y="-113"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="6II-IP-1jc"/>
-    </inferredMetricsTieBreakers>
 </document>
