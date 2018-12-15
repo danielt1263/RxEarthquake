@@ -38,7 +38,6 @@ extension EarthquakeDetailViewModel {
 		let weblink = inputs.moreInformation
 			.withLatestFrom(earthquake)
 			.map { $0.weblink }
-			.map { URL(string: $0) }
 
 		depth = earthquake
 			.map { depthFormatter.string(fromMeters: $0.depth) }
@@ -96,7 +95,7 @@ extension EarthquakeDetailViewModel {
 		share = inputs.share
 			.withLatestFrom(earthquake) { ($0, $1) }
 			.map { (barButtonItem, earthquake) -> ShareInfo in
-				if let url = URL(string: earthquake.weblink) {
+				if let url = earthquake.weblink {
 					return ShareInfo(items: [url, earthquake.location], barButtonItem: barButtonItem)
 				}
 				else {
