@@ -70,4 +70,4 @@ extension EarthquakeListViewModel {
 	}
 }
 
-typealias DataTask = (URLRequest) -> Observable<NetworkResponse>
+typealias DataTask = (URLRequest) -> Single<URLResponse>

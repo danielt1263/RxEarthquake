@@ -1,22 +1,18 @@
-/*
-Copyright (C) 2015 Apple Inc. All Rights Reserved.
-See LICENSE.txt for this sample’s licensing information
-
-Abstract:
-A UITableViewCell to display the high-level information of an earthquake
-*/
+//
+//  EarthquakeTableViewCell.swift
+//  RxEarthquake
+//
+//  Created by Daniel Tartaglia on 9/2/18.
+//  Copyright © 2018 Daniel Tartaglia. MIT License.
+//
 
 import UIKit
 
 class EarthquakeTableViewCell: UITableViewCell {
-	// MARK: Properties
-
 	@IBOutlet var locationLabel: UILabel!
 	@IBOutlet var timestampLabel: UILabel!
 	@IBOutlet var magnitudeLabel: UILabel!
 	@IBOutlet var magnitudeImage: UIImageView!
-
-	// MARK: Configuration
 
 	func configure(viewModel: EarthquakeCellViewModel) {
 		locationLabel.text = viewModel.location
