@@ -23,7 +23,8 @@ class EarthquakeListViewController: UITableViewController {
 		let inputs = EarthquakeListViewModel.UIInputs(
 			selectEarthquake: tableView.rx.itemSelected.asObservable(),
 			refreshTrigger: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
-			viewAppearTrigger: rx.methodInvoked(#selector(viewDidAppear(_:))).map { _ in })
+			viewAppearTrigger: rx.methodInvoked(#selector(viewDidAppear(_:))).map { _ in }
+		)
 
 		let viewModel = viewModelFactory(inputs)
 

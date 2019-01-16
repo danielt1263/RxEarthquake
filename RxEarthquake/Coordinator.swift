@@ -27,9 +27,9 @@ class Coordinator {
 		selectedEarthquake
 			.filter { $0 != nil }
 			.map { _ in }
-			.subscribe(onNext: {
+			.bind {
 				splitViewController.showDetailViewController(detailNav, sender: self)
-			})
+			}
 			.disposed(by: bag)
 
 		detail.viewModelFactory = { inputs -> EarthquakeDetailViewModel in
