@@ -24,8 +24,7 @@ class LocationManager {
 			.disposed(by: bag)
 
 		userLocation = locationManager.rx.didUpdateLocations
-			.map { $0.last }
-			.unwrap()
+			.compactMap { $0.last }
 			.share()
 	}
 

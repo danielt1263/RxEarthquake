@@ -33,7 +33,7 @@ extension Earthquake {
 		depth = feature.geometry.coordinates[2] * 1000
 		magnitude = feature.properties.mag
 		name = feature.properties.place
-		timestamp = Date(timeIntervalSince1970: feature.properties.time)
+		timestamp = Date(timeIntervalSince1970: feature.properties.time/1000.0)
 		weblink = feature.properties.url
 		location = CLLocation(coordinate: coordinate, altitude: -depth, horizontalAccuracy: kCLLocationAccuracyBest, verticalAccuracy: kCLLocationAccuracyBest, timestamp: timestamp)
 	}

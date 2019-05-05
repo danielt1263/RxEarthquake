@@ -9,7 +9,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import RxSwiftExt
 import CoreLocation
 import SafariServices
 
@@ -33,7 +32,7 @@ class Coordinator {
 			.disposed(by: bag)
 
 		detail.viewModelFactory = { inputs -> EarthquakeDetailViewModel in
-			let vm = EarthquakeDetailViewModel(inputs, earthquake: selectedEarthquake.unwrap(), userLocation: userLocation)
+			let vm = EarthquakeDetailViewModel(inputs, earthquake: selectedEarthquake.compactMap { $0 }, userLocation: userLocation)
 
 			vm.presentURL
 				.drive(onNext: (presentSafariViewController(url:)))

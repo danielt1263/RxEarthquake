@@ -50,8 +50,7 @@ extension EarthquakeDetailViewModel {
 
 		magnitudeString = earthquake
 			.map { $0.magnitude }
-			.map { magnitudeFormatter.string(from: $0 as NSNumber) }
-			.unwrap()
+			.compactMap { magnitudeFormatter.string(from: $0 as NSNumber) }
 			.asDriverLogError()
 
 		magnitudeColor = earthquake
@@ -84,7 +83,7 @@ extension EarthquakeDetailViewModel {
 			.asDriverLogError()
 
 		presentURL = weblink
-			.unwrap()
+			.compactMap { $0 }
 			.asDriverLogError()
 
 		presentAlert = weblink

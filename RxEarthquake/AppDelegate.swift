@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		coordinator = Coordinator(splitViewController: window!.rootViewController as! UISplitViewController)
 
 		let _ = isNetworkActive
-			.throttle(0.5)
+			.throttle(.milliseconds(500))
 			.drive(onNext: { on in
 				application.isNetworkActivityIndicatorVisible = on
 			})

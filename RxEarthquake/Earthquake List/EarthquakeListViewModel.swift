@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import RxSwiftExt
 
 struct EarthquakeListViewModel {
 	struct UIInputs {
@@ -36,12 +35,10 @@ extension EarthquakeListViewModel {
 			.share()
 
 		let earthquakeSummaryServerResponse = networkResponse
-			.map { $0.successResponse }
-			.unwrap()
+			.compactMap { $0.successResponse }
 
 		let error = networkResponse
-			.map { $0.failureResponse }
-			.unwrap()
+			.compactMap { $0.failureResponse }
 			.map { $0.localizedDescription }
 
 		let failure = earthquakeSummaryServerResponse
@@ -58,7 +55,7 @@ extension EarthquakeListViewModel {
 
 		endRefreshing = networkResponse
 			.map { _ in }
-			.throttle(0.5, scheduler: MainScheduler.instance)
+			.throttle(.milliseconds(500), scheduler: MainScheduler.instance)
 			.asDriverLogError()
 
 		errorMessage = Observable.merge(error, failure)
