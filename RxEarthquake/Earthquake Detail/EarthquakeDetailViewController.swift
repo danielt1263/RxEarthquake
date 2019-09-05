@@ -37,29 +37,14 @@ final class EarthquakeDetailViewController: UITableViewController, HasViewModel 
 		)
 		let viewModel = viewModelFactory(inputs)
 
-		viewModel.depth
-			.drive(depthLabel.rx.text)
-			.disposed(by: bag)
-
-		viewModel.distance
-			.drive(distanceLabel.rx.text)
-			.disposed(by: bag)
-
-		viewModel.magnitudeString
-			.drive(magnitudeLabel.rx.text)
-			.disposed(by: bag)
-
-		viewModel.magnitudeColor
-			.drive(magnitudeColor)
-			.disposed(by: bag)
-
-		viewModel.name
-			.drive(nameLabel.rx.text)
-			.disposed(by: bag)
-
-		viewModel.time
-			.drive(timeLabel.rx.text)
-			.disposed(by: bag)
+		bag.insert(
+			viewModel.depth.drive(depthLabel.rx.text),
+			viewModel.distance.drive(distanceLabel.rx.text),
+			viewModel.magnitudeString.drive(magnitudeLabel.rx.text),
+			viewModel.magnitudeColor.drive(magnitudeColor),
+			viewModel.name.drive(nameLabel.rx.text),
+			viewModel.time.drive(timeLabel.rx.text)
+		)
 
 		let map = self.map!
 		viewModel.coordinate
