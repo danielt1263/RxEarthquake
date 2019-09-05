@@ -23,7 +23,7 @@ enum EarthquakeList {
 		let errorMessage: Driver<String>
 	}
 
-	static func viewModel(dataTask: @escaping DataTask) -> (UIInputs) -> (UIOutputs, Observable<Earthquake>) {
+	static func viewModel(dataTask: @escaping DataTask, scheduler: SchedulerType = MainScheduler.instance) -> (UIInputs) -> (UIOutputs, Observable<Earthquake>) {
 		return { inputs in
 			let networkResponse = Observable.merge(inputs.refreshTrigger, inputs.viewAppearTrigger)
 				.map { URLRequest.earthquakeSummary }
@@ -51,7 +51,7 @@ enum EarthquakeList {
 
 			let endRefreshing = networkResponse
 				.map { _ in }
-				.throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+				.throttle(.milliseconds(500), scheduler: scheduler)
 				.asDriverLogError()
 
 			let errorMessage = Observable.merge(error, failure)
