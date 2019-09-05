@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import CoreLocation
 
-class LocationManager {
+final class LocationManager {
 
 	let userLocation: Observable<CLLocation>
 

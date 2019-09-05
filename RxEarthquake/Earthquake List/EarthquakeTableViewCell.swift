@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EarthquakeTableViewCell: UITableViewCell {
+final class EarthquakeTableViewCell: UITableViewCell {
 	@IBOutlet var locationLabel: UILabel!
 	@IBOutlet var timestampLabel: UILabel!
 	@IBOutlet var magnitudeLabel: UILabel!

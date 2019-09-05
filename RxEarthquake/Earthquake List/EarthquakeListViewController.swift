@@ -10,9 +10,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class EarthquakeListViewController: UITableViewController {
+final class EarthquakeListViewController: UITableViewController, HasViewModel {
 
-	var viewModelFactory: (EarthquakeListViewModel.UIInputs) -> EarthquakeListViewModel = { _ in fatalError("Must provide factory function first.") }
+	var viewModelFactory: (EarthquakeList.UIInputs) -> EarthquakeList.UIOutputs = { _ in fatalError("Must provide factory function first.") }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -20,7 +20,7 @@ class EarthquakeListViewController: UITableViewController {
 		self.clearsSelectionOnViewWillAppear = false
 		let refreshControl = self.refreshControl!
 
-		let inputs = EarthquakeListViewModel.UIInputs(
+		let inputs = EarthquakeList.UIInputs(
 			selectEarthquake: tableView.rx.itemSelected.asObservable(),
 			refreshTrigger: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
 			viewAppearTrigger: rx.methodInvoked(#selector(viewDidAppear(_:))).map { _ in }

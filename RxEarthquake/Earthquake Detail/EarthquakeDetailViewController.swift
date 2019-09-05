@@ -11,7 +11,7 @@ import MapKit
 import RxSwift
 import RxCocoa
 
-class EarthquakeDetailViewController: UITableViewController {
+final class EarthquakeDetailViewController: UITableViewController, HasViewModel {
 
 	@IBOutlet weak var depthLabel: UILabel!
 	@IBOutlet weak var distanceLabel: UILabel!
@@ -21,14 +21,14 @@ class EarthquakeDetailViewController: UITableViewController {
 	@IBOutlet weak var timeLabel: UILabel!
 	@IBOutlet weak var shareButton: UIBarButtonItem!
 
-	var viewModelFactory: (EarthquakeDetailViewModel.UIInputs) -> EarthquakeDetailViewModel = { _ in fatalError("Must provide factory function first.") }
+	var viewModelFactory: (EarthquakeDetail.UIInputs) -> EarthquakeDetail.UIOutputs = { _ in fatalError("Must provide factory function first.") }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
 		let tableView = self.tableView!
 		let shareButton = self.shareButton!
-		let inputs = EarthquakeDetailViewModel.UIInputs(
+		let inputs = EarthquakeDetail.UIInputs(
 			moreInformation: tableView.rx.itemSelected
 				.do(onNext: { tableView.deselectRow(at: $0, animated: true) })
 				.filter { $0.section == 1 && $0.row == 0 }

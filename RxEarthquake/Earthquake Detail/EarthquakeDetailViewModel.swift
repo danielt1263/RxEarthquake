@@ -11,97 +11,104 @@ import RxSwift
 import RxCocoa
 import CoreLocation
 
-struct EarthquakeDetailViewModel {
+enum EarthquakeDetail {
 	struct UIInputs {
 		let moreInformation: Observable<Void>
 		let share: Observable<UIBarButtonItem>
 	}
 
-	// UI outputs
-	let depth: Driver<String>
-	let distance: Driver<String>
-	let magnitudeString: Driver<String>
-	let magnitudeColor: Driver<UIColor>
-	let coordinate: Driver<CLLocationCoordinate2D>
-	let name: Driver<String>
-	let time: Driver<String>
+	struct UIOutputs {
+		let depth: Driver<String>
+		let distance: Driver<String>
+		let magnitudeString: Driver<String>
+		let magnitudeColor: Driver<UIColor>
+		let coordinate: Driver<CLLocationCoordinate2D>
+		let name: Driver<String>
+		let time: Driver<String>
+	}
 
-	// coordinator outputs
-	let presentURL: Driver<URL>
-	let presentAlert: Driver<(title: String, message: String)>
-	let share: Driver<ShareInfo>
-}
+	enum Action {
+		case presentURL(URL)
+		case presentAlert(title: String, message: String)
+		case share(ShareInfo)
+	}
 
-extension EarthquakeDetailViewModel {
-	init(_ inputs: UIInputs, earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) {
+	static func viewModel(earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) -> (UIInputs) -> (UIOutputs, Observable<Action>) {
+		return { inputs in
 
-		let weblink = inputs.moreInformation
-			.withLatestFrom(earthquake)
-			.map { $0.weblink }
+			let weblink = inputs.moreInformation
+				.withLatestFrom(earthquake)
+				.map { $0.weblink }
 
-		depth = earthquake
-			.map { depthFormatter.string(fromMeters: $0.depth) }
-			.asDriverLogError()
+			let depth = earthquake
+				.map { depthFormatter.string(fromMeters: $0.depth) }
+				.asDriverLogError()
 
-		distance = Observable.combineLatest(earthquake, userLocation)
-			.map { $1.distance(from: $0.location) }
-			.map { distanceFormatter.string(fromMeters: $0) }
-			.asDriverLogError()
+			let distance = Observable.combineLatest(earthquake, userLocation)
+				.map { $1.distance(from: $0.location) }
+				.map { distanceFormatter.string(fromMeters: $0) }
+				.asDriverLogError()
 
-		magnitudeString = earthquake
-			.map { $0.magnitude }
-			.compactMap { magnitudeFormatter.string(from: $0 as NSNumber) }
-			.asDriverLogError()
+			let magnitudeString = earthquake
+				.map { $0.magnitude }
+				.compactMap { magnitudeFormatter.string(from: $0 as NSNumber) }
+				.asDriverLogError()
 
-		magnitudeColor = earthquake
-			.map {
-				switch $0.magnitude {
-				case 0..<3:
-					return UIColor.gray
-				case 3..<4:
-					return UIColor.blue
-				case 4..<5:
-					return UIColor.orange
-				default:
-					return UIColor.red
+			let magnitudeColor: Driver<UIColor> = earthquake
+				.map {
+					switch $0.magnitude {
+					case 0..<3:
+						return UIColor.gray
+					case 3..<4:
+						return UIColor.blue
+					case 4..<5:
+						return UIColor.orange
+					default:
+						return UIColor.red
+					}
 				}
-			}
-			.asDriverLogError()
+				.asDriverLogError()
 
-		coordinate = earthquake
-			.map { $0.coordinate }
-			.distinctUntilChanged { $0.latitude == $1.latitude && $0.longitude == $1.longitude }
-			.asDriverLogError()
+			let coordinate = earthquake
+				.map { $0.coordinate }
+				.distinctUntilChanged { $0.latitude == $1.latitude && $0.longitude == $1.longitude }
+				.asDriverLogError()
 
-		name = earthquake
-			.map { $0.name }
-			.asDriverLogError()
+			let name = earthquake
+				.map { $0.name }
+				.asDriverLogError()
 
-		time = earthquake
-			.map { $0.timestamp }
-			.map { timestampFormatter.string(from: $0) }
-			.asDriverLogError()
+			let time = earthquake
+				.map { $0.timestamp }
+				.map { timestampFormatter.string(from: $0) }
+				.asDriverLogError()
 
-		presentURL = weblink
-			.compactMap { $0 }
-			.asDriverLogError()
+			let presentURL = weblink
+				.compactMap { $0 }
+				.map(Action.presentURL)
 
-		presentAlert = weblink
-			.filter { $0 == nil }
-			.map { _ in (title: "No Information", message: "No other information is available for this earthquake") }
-			.asDriverLogError()
+			let presentAlert = weblink
+				.filter { $0 == nil }
+				.map { _ in (title: "No Information", message: "No other information is available for this earthquake") }
+				.map(Action.presentAlert)
 
-		share = inputs.share
-			.withLatestFrom(earthquake) { ($0, $1) }
-			.map { (barButtonItem, earthquake) -> ShareInfo in
-				if let url = earthquake.weblink {
-					return ShareInfo(items: [url, earthquake.location], barButtonItem: barButtonItem)
+			let share = inputs.share
+				.withLatestFrom(earthquake) { ($0, $1) }
+				.map { (barButtonItem, earthquake) -> ShareInfo in
+					if let url = earthquake.weblink {
+						return ShareInfo(items: [url, earthquake.location], barButtonItem: barButtonItem)
+					}
+					else {
+						return ShareInfo(items: [earthquake.location], barButtonItem: barButtonItem)
+					}
 				}
-				else {
-					return ShareInfo(items: [earthquake.location], barButtonItem: barButtonItem)
-				}
-			}
-			.asDriverLogError()
+				.map(Action.share)
+
+			return (
+				UIOutputs(depth: depth, distance: distance, magnitudeString: magnitudeString, magnitudeColor: magnitudeColor, coordinate: coordinate, name: name, time: time),
+				Observable.merge(presentURL, presentAlert, share)
+			)
+		}
 	}
 }
 

@@ -18,6 +18,7 @@
 		72B7AF2F213F562E0052419D /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7AF2E213F562E0052419D /* Request.swift */; };
 		72B7AF31213F56460052419D /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7AF30213F56460052419D /* ActivityIndicator.swift */; };
 		72B7AF34213F5FFE0052419D /* EarthquakeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7AF33213F5FFE0052419D /* EarthquakeListViewModel.swift */; };
+		72C491F823209C080027B5D3 /* HasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C491F723209C080027B5D3 /* HasViewModel.swift */; };
 		72F60AF4213C1BD10038F961 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F60AF3213C1BD10038F961 /* AppDelegate.swift */; };
 		72F60AFB213C1BD10038F961 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72F60AF9213C1BD10038F961 /* Main.storyboard */; };
 		72F60AFD213C1BE10038F961 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72F60AFC213C1BE10038F961 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		72B7AF2E213F562E0052419D /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		72B7AF30213F56460052419D /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		72B7AF33213F5FFE0052419D /* EarthquakeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeListViewModel.swift; sourceTree = "<group>"; };
+		72C491F723209C080027B5D3 /* HasViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasViewModel.swift; sourceTree = "<group>"; };
 		72F60AF0213C1BD10038F961 /* RxEarthquake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxEarthquake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72F60AF3213C1BD10038F961 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72F60AFA213C1BD10038F961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -128,12 +130,13 @@
 			isa = PBXGroup;
 			children = (
 				72B7AF30213F56460052419D /* ActivityIndicator.swift */,
+				729D5E1C214DB33000A320C9 /* AsDriverLogError.swift */,
 				72860D722144463E00DCDD39 /* CLLocationManager+Rx.swift */,
+				72C491F723209C080027B5D3 /* HasViewModel.swift */,
 				72860D7E21449DC100DCDD39 /* LocationManager.swift */,
 				72860D7821444A0800DCDD39 /* NetworkRequest.swift */,
 				72860D742144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift */,
 				72860D7C21446DD300DCDD39 /* UIViewController+top.swift */,
-				729D5E1C214DB33000A320C9 /* AsDriverLogError.swift */,
 			);
 			path = RxExtensions;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				72B7AF2F213F562E0052419D /* Request.swift in Sources */,
 				72F60B0C213C1E0A0038F961 /* EarthquakeDetailViewController.swift in Sources */,
 				72F60B0A213C1DDF0038F961 /* EarthquakeListViewController.swift in Sources */,
+				72C491F823209C080027B5D3 /* HasViewModel.swift in Sources */,
 				72F60B13213C29BF0038F961 /* EarthquakeTableViewCell.swift in Sources */,
 				72860D752144465300DCDD39 /* RxCLLocationManagerDelegateProxy.swift in Sources */,
 				72F9024D214207760047CB1E /* Coordinator.swift in Sources */,

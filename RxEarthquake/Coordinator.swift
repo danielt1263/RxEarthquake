@@ -12,51 +12,46 @@ import RxCocoa
 import CoreLocation
 import SafariServices
 
-class Coordinator {
+final class Coordinator {
 
 	init(splitViewController: UISplitViewController) {
 		let mainNav = splitViewController.children[0] as! UINavigationController
 		let main = mainNav.children[0] as! EarthquakeListViewController
 		let detailNav = splitViewController.children[1] as! UINavigationController
 		let detail = detailNav.children[0] as! EarthquakeDetailViewController
-		let selectedEarthquake = self.selectedEarthquake
-		let userLocation = self.locationManager.userLocation
-		let bag = self.bag
 
-		selectedEarthquake
-			.filter { $0 != nil }
+		let displayEarthquake = main.installOutputViewModel(outputFactory: EarthquakeList.viewModel(dataTask: dataTask))
+			.share(replay: 1)
+		let detailAction = detail.installOutputViewModel(
+			outputFactory: EarthquakeDetail.viewModel(
+				earthquake: displayEarthquake,
+				userLocation: locationManager.userLocation
+			)
+		)
+
+		displayEarthquake
 			.map { _ in }
 			.bind {
 				splitViewController.showDetailViewController(detailNav, sender: self)
 			}
 			.disposed(by: bag)
 
-		detail.viewModelFactory = { inputs -> EarthquakeDetailViewModel in
-			let vm = EarthquakeDetailViewModel(inputs, earthquake: selectedEarthquake.compactMap { $0 }, userLocation: userLocation)
+		displayEarthquake
+			.bind(to: selectedEarthquake)
+			.disposed(by: bag)
 
-			vm.presentURL
-				.drive(onNext: (presentSafariViewController(url:)))
-				.disposed(by: bag)
-
-			vm.presentAlert
-				.drive(onNext: (presentAlertViewController(title:message:)))
-				.disposed(by: bag)
-
-			vm.share
-				.drive(onNext: (presentActivityViewController(shareInfo:)))
-				.disposed(by: bag)
-
-			return vm
-		}
-
-		main.viewModelFactory = { inputs -> EarthquakeListViewModel in
-			let vm = EarthquakeListViewModel(inputs, dataTask: dataTask)
-			vm.displayEarthquake
-				.drive(selectedEarthquake)
-				.disposed(by: bag)
-
-			return vm
-		}
+		detailAction
+			.bind(onNext: { action in
+				switch action {
+				case .presentURL(let url):
+					presentSafariViewController(url: url)
+				case .presentAlert(let title, let message):
+					presentAlertViewController(title: title, message: message)
+				case .share(let shareInfo):
+					presentActivityViewController(shareInfo: shareInfo)
+				}
+			})
+			.disposed(by: bag)
 
 		splitViewController.delegate = self
 		splitViewController.preferredDisplayMode = .allVisible
