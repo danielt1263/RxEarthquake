@@ -13,18 +13,16 @@ import RxSwift
 final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-	var coordinator: Coordinator?
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-		coordinator = Coordinator(splitViewController: window!.rootViewController as! UISplitViewController)
+		coordinator(splitViewController: window!.rootViewController as! UISplitViewController)
 
 		let _ = isNetworkActive
 			.throttle(.milliseconds(500))
 			.drive(onNext: { on in
 				application.isNetworkActivityIndicatorVisible = on
 			})
-
 
 		return true
 	}

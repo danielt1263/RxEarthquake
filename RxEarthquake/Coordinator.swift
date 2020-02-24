@@ -12,62 +12,47 @@ import RxCocoa
 import CoreLocation
 import SafariServices
 
-final class Coordinator {
+func coordinator(splitViewController: UISplitViewController) {
+	let mainNav = splitViewController.children[0] as! UINavigationController
+	let main = mainNav.children[0] as! EarthquakeListViewController
+	let detailNav = splitViewController.children[1] as! UINavigationController
+	let detail = detailNav.children[0] as! EarthquakeDetailViewController
 
-	init(splitViewController: UISplitViewController) {
-		let mainNav = splitViewController.children[0] as! UINavigationController
-		let main = mainNav.children[0] as! EarthquakeListViewController
-		let detailNav = splitViewController.children[1] as! UINavigationController
-		let detail = detailNav.children[0] as! EarthquakeDetailViewController
+	let displayEarthquake = main.installOutputViewModel(outputFactory: EarthquakeList.viewModel(dataTask: dataTask))
+		.share(replay: 1)
 
-		let displayEarthquake = main.installOutputViewModel(outputFactory: EarthquakeList.viewModel(dataTask: dataTask))
-			.share(replay: 1)
-		let detailAction = detail.installOutputViewModel(
-			outputFactory: EarthquakeDetail.viewModel(
-				earthquake: displayEarthquake,
-				userLocation: locationManager.userLocation
-			)
+	_ = detail.installOutputViewModel(
+		outputFactory: EarthquakeDetail.viewModel(
+			earthquake: displayEarthquake,
+			userLocation: locationManager.userLocation
 		)
-
-		displayEarthquake
-			.map { _ in }
-			.bind {
-				splitViewController.showDetailViewController(detailNav, sender: self)
+	)
+		.bind { action in
+			switch action {
+			case .presentURL(let url):
+				presentSafariViewController(url: url)
+			case .presentAlert(let title, let message):
+				presentAlertViewController(title: title, message: message)
+			case .share(let shareInfo):
+				presentActivityViewController(shareInfo: shareInfo)
 			}
-			.disposed(by: bag)
+		}
 
-		displayEarthquake
-			.bind(to: selectedEarthquake)
-			.disposed(by: bag)
+	_ = displayEarthquake
+		.map { _ in }
+		.bind {
+			splitViewController.showDetailViewController(detailNav, sender: nil)
+		}
 
-		detailAction
-			.bind(onNext: { action in
-				switch action {
-				case .presentURL(let url):
-					presentSafariViewController(url: url)
-				case .presentAlert(let title, let message):
-					presentAlertViewController(title: title, message: message)
-				case .share(let shareInfo):
-					presentActivityViewController(shareInfo: shareInfo)
-				}
-			})
-			.disposed(by: bag)
+	_ = displayEarthquake.map { _ in false }
+		.startWith(true)
+		.bind(to: splitViewController.rx.collapseSecondaryOntoPrimary)
 
-		splitViewController.delegate = self
-		splitViewController.preferredDisplayMode = .allVisible
-	}
-
-	private let locationManager = LocationManager()
-	private let selectedEarthquake = BehaviorRelay<Earthquake?>(value: nil)
-	private let bag = DisposeBag()
-
+	splitViewController.preferredDisplayMode = .allVisible
 }
 
-extension Coordinator: UISplitViewControllerDelegate {
-	func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-		return selectedEarthquake.value == nil
-	}
-}
+private
+let locationManager = LocationManager()
 
 private
 func presentSafariViewController(url: URL) {
@@ -87,4 +72,43 @@ func presentActivityViewController(shareInfo: ShareInfo) {
 	let shareSheet = UIActivityViewController(activityItems: shareInfo.items, applicationActivities: nil)
 	shareSheet.popoverPresentationController?.barButtonItem = shareInfo.barButtonItem
 	UIViewController.top().present(shareSheet, animated: true)
+}
+
+extension UISplitViewController: HasDelegate {
+    public typealias Delegate = UISplitViewControllerDelegate
+}
+
+class LayoutDelegateProxy
+    : DelegateProxy<UISplitViewController, UISplitViewControllerDelegate>
+    , DelegateProxyType
+    , UISplitViewControllerDelegate {
+
+    init(parentObject: UISplitViewController) {
+        super.init(parentObject: parentObject, delegateProxy: LayoutDelegateProxy.self)
+    }
+
+    deinit {
+        _collapseSecondaryOntoPrimary.onCompleted()
+    }
+
+    public static func registerKnownImplementations() {
+        self.register { LayoutDelegateProxy(parentObject: $0) }
+    }
+
+	func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+		return try! _collapseSecondaryOntoPrimary.value()
+	}
+
+	fileprivate let _collapseSecondaryOntoPrimary = BehaviorSubject<Bool>(value: false)
+}
+
+extension Reactive where Base: UISplitViewController {
+    var delegate: LayoutDelegateProxy {
+        return LayoutDelegateProxy.proxy(for: base)
+    }
+
+	func collapseSecondaryOntoPrimary<Source: ObservableType>(_ source: Source) -> Disposable where Source.Element == Bool {
+		return source
+			.bind(to: delegate._collapseSecondaryOntoPrimary)
+	}
 }
