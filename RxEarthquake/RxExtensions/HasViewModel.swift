@@ -16,15 +16,12 @@ protocol HasViewModel: class {
 
 extension HasViewModel {
 	func installOutputViewModel<T>(outputFactory: @escaping (Inputs) -> (Outputs, Observable<T>)) -> Observable<T> {
-		return Observable.create { [weak self] observer in
-			let disposable = CompositeDisposable()
-			self?.viewModelFactory = { inputs in
-				let vm = outputFactory(inputs)
-				_ = disposable.insert(vm.1.bind(to: observer))
-				return vm.0
-			}
-
-			return disposable
+		let result = PublishSubject<T>()
+		viewModelFactory = { inputs in
+			let vm = outputFactory(inputs)
+			_ = vm.1.bind(to: result)
+			return vm.0
 		}
+		return result
 	}
 }
