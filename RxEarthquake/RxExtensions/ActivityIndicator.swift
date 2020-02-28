@@ -8,6 +8,7 @@
 
 import RxSwift
 import RxCocoa
+import Foundation
 
 private struct ActivityToken<E> : ObservableConvertibleType, Disposable {
 	private let _source: Observable<E>

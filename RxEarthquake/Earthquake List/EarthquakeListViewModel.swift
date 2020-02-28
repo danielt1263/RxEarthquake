@@ -32,6 +32,7 @@ enum EarthquakeList {
 
 			let earthquakeSummaryServerResponse = networkResponse
 				.compactMap { $0.successResponse }
+				.share()
 
 			let error = networkResponse
 				.compactMap { $0.failureResponse }
@@ -44,6 +45,7 @@ enum EarthquakeList {
 			let earthquakes = earthquakeSummaryServerResponse
 				.filter { $0.1.statusCode / 100 == 2 }
 				.map { Earthquake.earthquakes(from: $0.0) }
+				.share()
 
 			let earthquakeCellViewModels = earthquakes
 				.map { $0.map { EarthquakeCellViewModel(earthquake: $0) } }
@@ -66,7 +68,6 @@ enum EarthquakeList {
 			)
 		}
 	}
-
 }
 
 typealias DataTask = (URLRequest) -> Single<URLResponse>
