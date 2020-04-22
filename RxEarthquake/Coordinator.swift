@@ -19,7 +19,6 @@ func coordinator(splitViewController: UISplitViewController) {
 	let detail = detailNav.children[0] as! EarthquakeDetailViewController
 
 	let displayEarthquake = main.installOutputViewModel(outputFactory: EarthquakeList.viewModel(dataTask: dataTask))
-		.share(replay: 1)
 
 	_ = detail.installOutputViewModel(
 		outputFactory: EarthquakeDetail.viewModel(
@@ -27,7 +26,7 @@ func coordinator(splitViewController: UISplitViewController) {
 			userLocation: locationManager.userLocation
 		)
 	)
-		.bind { action in
+		.drive(onNext: { action in
 			switch action {
 			case .presentURL(let url):
 				presentSafariViewController(url: url)
@@ -36,17 +35,17 @@ func coordinator(splitViewController: UISplitViewController) {
 			case .share(let shareInfo):
 				presentActivityViewController(shareInfo: shareInfo)
 			}
-		}
+		})
 
 	_ = displayEarthquake
 		.map { _ in }
-		.bind {
+		.drive(onNext: {
 			splitViewController.showDetailViewController(detailNav, sender: nil)
-		}
+		})
 
 	_ = displayEarthquake.map { _ in false }
 		.startWith(true)
-		.bind(to: splitViewController.rx.collapseSecondaryOntoPrimary)
+		.drive(splitViewController.rx.collapseSecondaryOntoPrimary)
 
 	splitViewController.preferredDisplayMode = .allVisible
 }

@@ -30,10 +30,11 @@ final class EarthquakeDetailViewController: UITableViewController, HasViewModel 
 		let shareButton = self.shareButton!
 		let inputs = EarthquakeDetail.UIInputs(
 			moreInformation: tableView.rx.itemSelected
+				.asDriver()
 				.do(onNext: { tableView.deselectRow(at: $0, animated: true) })
 				.filter { $0.section == 1 && $0.row == 0 }
 				.map { _ in },
-			share: shareButton.rx.tap.map { shareButton }
+			share: shareButton.rx.tap.asDriver().map { shareButton }
 		)
 		let viewModel = viewModelFactory(inputs)
 

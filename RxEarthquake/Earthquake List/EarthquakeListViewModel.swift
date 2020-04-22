@@ -9,11 +9,12 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxEnumKit
 
 enum EarthquakeList {
 	struct UIInputs {
-		let selectEarthquake: Observable<IndexPath>
-		let refreshTrigger: Observable<Void>
+		let selectEarthquake: Driver<IndexPath>
+		let refreshTrigger: Driver<Void>
 		let viewAppearTrigger: Observable<Void>
 	}
 
@@ -23,41 +24,36 @@ enum EarthquakeList {
 		let errorMessage: Driver<String>
 	}
 
-	static func viewModel(dataTask: @escaping DataTask, scheduler: SchedulerType = MainScheduler.instance) -> (UIInputs) -> (UIOutputs, Observable<Earthquake>) {
+	static func viewModel(dataTask: @escaping DataTask, scheduler: SchedulerType = MainScheduler.instance) -> (UIInputs) -> (UIOutputs, Driver<Earthquake>) {
 		return { inputs in
-			let networkResponse = Observable.merge(inputs.refreshTrigger, inputs.viewAppearTrigger)
+			let viewAppearTrigger = inputs.viewAppearTrigger
+				.asDriverResult()
+
+			let networkResponse = Driver.merge(inputs.refreshTrigger, viewAppearTrigger.capture(case: Result.success))
 				.map { URLRequest.earthquakeSummary }
 				.flatMapLatest { dataTask($0) }
-				.share()
-
-			let earthquakeSummaryServerResponse = networkResponse
-				.compactMap { $0.successResponse }
-				.share()
 
 			let error = networkResponse
-				.compactMap { $0.failureResponse }
+				.capture(case: Result.failure)
 				.map { $0.localizedDescription }
 
-			let failure = earthquakeSummaryServerResponse
-				.filter { $0.1.statusCode / 100 != 2 }
-				.map { "There was a server error (\($0))" }
+			let internalError = viewAppearTrigger
+				.capture(case: Result.failure)
+				.map { "There was an internal iOS error. Please restart. \($0.localizedDescription)" }
 
-			let earthquakes = earthquakeSummaryServerResponse
-				.filter { $0.1.statusCode / 100 == 2 }
-				.map { Earthquake.earthquakes(from: $0.0) }
-				.share()
+
+			let earthquakes = networkResponse
+				.capture(case: Result.success)
+				.map { Earthquake.earthquakes(from: $0) }
 
 			let earthquakeCellViewModels = earthquakes
 				.map { $0.map { EarthquakeCellViewModel(earthquake: $0) } }
-				.asDriverLogError()
 
 			let endRefreshing = networkResponse
 				.map { _ in }
-				.throttle(.milliseconds(500), scheduler: scheduler)
-				.asDriverLogError()
+				.throttle(.milliseconds(500))
 
-			let errorMessage = Observable.merge(error, failure)
-				.asDriverLogError()
+			let errorMessage = Driver.merge(error, internalError)
 
 			let displayEarthquake = inputs.selectEarthquake
 				.withLatestFrom(earthquakes) { $1[$0.row] }
@@ -70,4 +66,4 @@ enum EarthquakeList {
 	}
 }
 
-typealias DataTask = (URLRequest) -> Single<URLResponse>
+typealias DataTask = (URLRequest) -> Driver<URLResponse>

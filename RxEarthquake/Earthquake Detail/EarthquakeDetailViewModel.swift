@@ -9,12 +9,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxEnumKit
 import CoreLocation
 
 enum EarthquakeDetail {
 	struct UIInputs {
-		let moreInformation: Observable<Void>
-		let share: Observable<UIBarButtonItem>
+		let moreInformation: Driver<Void>
+		let share: Driver<UIBarButtonItem>
 	}
 
 	struct UIOutputs {
@@ -33,8 +34,11 @@ enum EarthquakeDetail {
 		case share(ShareInfo)
 	}
 
-	static func viewModel(earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) -> (UIInputs) -> (UIOutputs, Observable<Action>) {
+	static func viewModel(earthquake: Driver<Earthquake>, userLocation: Observable<CLLocation>) -> (UIInputs) -> (UIOutputs, Driver<Action>) {
 		return { inputs in
+
+			let location = userLocation
+				.asDriverResult()
 
 			let weblink = inputs.moreInformation
 				.withLatestFrom(earthquake)
@@ -42,17 +46,14 @@ enum EarthquakeDetail {
 
 			let depth = earthquake
 				.map { depthFormatter.string(fromMeters: $0.depth) }
-				.asDriverLogError()
 
-			let distance = Observable.combineLatest(earthquake, userLocation)
+			let distance = Driver.combineLatest(earthquake, location.capture(case: Result.success))
 				.map { $1.distance(from: $0.location) }
 				.map { distanceFormatter.string(fromMeters: $0) }
-				.asDriverLogError()
 
 			let magnitudeString = earthquake
 				.map { $0.magnitude }
 				.compactMap { magnitudeFormatter.string(from: $0 as NSNumber) }
-				.asDriverLogError()
 
 			let magnitudeColor: Driver<UIColor> = earthquake
 				.map {
@@ -67,25 +68,26 @@ enum EarthquakeDetail {
 						return UIColor.red
 					}
 				}
-				.asDriverLogError()
 
 			let coordinate = earthquake
 				.map { $0.coordinate }
 				.distinctUntilChanged { $0.latitude == $1.latitude && $0.longitude == $1.longitude }
-				.asDriverLogError()
 
 			let name = earthquake
 				.map { $0.name }
-				.asDriverLogError()
 
 			let time = earthquake
 				.map { $0.timestamp }
 				.map { timestampFormatter.string(from: $0) }
-				.asDriverLogError()
 
 			let presentURL = weblink
 				.compactMap { $0 }
 				.map(Action.presentURL)
+
+			let error = location
+				.capture(case: Result.failure)
+				.map { (title: "Error", message: "There was an iOS system error. The location system is not available. \($0.localizedDescription)") }
+				.map(Action.presentAlert)
 
 			let presentAlert = weblink
 				.filter { $0 == nil }
@@ -106,7 +108,7 @@ enum EarthquakeDetail {
 
 			return (
 				UIOutputs(depth: depth, distance: distance, magnitudeString: magnitudeString, magnitudeColor: magnitudeColor, coordinate: coordinate, name: name, time: time),
-				Observable.merge(presentURL, presentAlert, share)
+				Driver.merge(presentURL, presentAlert, share, error)
 			)
 		}
 	}

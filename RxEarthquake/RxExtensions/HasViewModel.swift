@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 protocol HasViewModel: class {
 	associatedtype Inputs
@@ -15,13 +16,13 @@ protocol HasViewModel: class {
 }
 
 extension HasViewModel {
-	func installOutputViewModel<T>(outputFactory: @escaping (Inputs) -> (Outputs, Observable<T>)) -> Observable<T> {
+	func installOutputViewModel<T>(outputFactory: @escaping (Inputs) -> (Outputs, Driver<T>)) -> Driver<T> {
 		let result = PublishSubject<T>()
 		viewModelFactory = { inputs in
 			let vm = outputFactory(inputs)
-			_ = vm.1.bind(to: result)
+			_ = vm.1.drive(result)
 			return vm.0
 		}
-		return result
+		return result.asDriver(onErrorRecover: { fatalError("\($0.localizedDescription)") })
 	}
 }

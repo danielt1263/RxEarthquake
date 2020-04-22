@@ -21,8 +21,8 @@ final class EarthquakeListViewController: UITableViewController, HasViewModel {
 		let refreshControl = self.refreshControl!
 
 		let inputs = EarthquakeList.UIInputs(
-			selectEarthquake: tableView.rx.itemSelected.asObservable(),
-			refreshTrigger: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
+			selectEarthquake: tableView.rx.itemSelected.asDriver(),
+			refreshTrigger: refreshControl.rx.controlEvent(.valueChanged).asDriver(),
 			viewAppearTrigger: rx.methodInvoked(#selector(viewDidAppear(_:))).map { _ in }
 		)
 
@@ -45,4 +45,3 @@ final class EarthquakeListViewController: UITableViewController, HasViewModel {
 
 	let bag = DisposeBag()
 }
-

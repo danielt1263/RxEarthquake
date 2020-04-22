@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		093B834F21516C7E00E79E09 /* EarthquakeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093B834E21516C7E00E79E09 /* EarthquakeCellViewModel.swift */; };
+		09E688FB244FE47200C69877 /* RxEnumKit in Frameworks */ = {isa = PBXBuildFile; productRef = 09E688FA244FE47200C69877 /* RxEnumKit */; };
 		720A6A6F240935BB00639C6D /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 720A6A6E240935BB00639C6D /* RxSwift */; };
 		720A6A71240935BB00639C6D /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 720A6A70240935BB00639C6D /* RxRelay */; };
 		720A6A73240935BB00639C6D /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 720A6A72240935BB00639C6D /* RxCocoa */; };
@@ -18,7 +19,7 @@
 		72860D7921444A0800DCDD39 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D7821444A0800DCDD39 /* NetworkRequest.swift */; };
 		72860D7D21446DD300DCDD39 /* UIViewController+top.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D7C21446DD300DCDD39 /* UIViewController+top.swift */; };
 		72860D7F21449DC100DCDD39 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72860D7E21449DC100DCDD39 /* LocationManager.swift */; };
-		729D5E1D214DB33000A320C9 /* AsDriverLogError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729D5E1C214DB33000A320C9 /* AsDriverLogError.swift */; };
+		729D5E1D214DB33000A320C9 /* AsDriverResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729D5E1C214DB33000A320C9 /* AsDriverResult.swift */; };
 		72B7AF2F213F562E0052419D /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7AF2E213F562E0052419D /* Request.swift */; };
 		72B7AF31213F56460052419D /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7AF30213F56460052419D /* ActivityIndicator.swift */; };
 		72B7AF34213F5FFE0052419D /* EarthquakeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7AF33213F5FFE0052419D /* EarthquakeListViewModel.swift */; };
@@ -43,7 +44,7 @@
 		72860D7821444A0800DCDD39 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		72860D7C21446DD300DCDD39 /* UIViewController+top.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+top.swift"; sourceTree = "<group>"; };
 		72860D7E21449DC100DCDD39 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		729D5E1C214DB33000A320C9 /* AsDriverLogError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsDriverLogError.swift; sourceTree = "<group>"; };
+		729D5E1C214DB33000A320C9 /* AsDriverResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsDriverResult.swift; sourceTree = "<group>"; };
 		72B7AF2E213F562E0052419D /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		72B7AF30213F56460052419D /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		72B7AF33213F5FFE0052419D /* EarthquakeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeListViewModel.swift; sourceTree = "<group>"; };
@@ -69,6 +70,7 @@
 			files = (
 				720A6A73240935BB00639C6D /* RxCocoa in Frameworks */,
 				720A6A71240935BB00639C6D /* RxRelay in Frameworks */,
+				09E688FB244FE47200C69877 /* RxEnumKit in Frameworks */,
 				720A6A6F240935BB00639C6D /* RxSwift in Frameworks */,
 				720A6A762409364D00639C6D /* RxTimelane in Frameworks */,
 			);
@@ -125,7 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				72B7AF30213F56460052419D /* ActivityIndicator.swift */,
-				729D5E1C214DB33000A320C9 /* AsDriverLogError.swift */,
+				729D5E1C214DB33000A320C9 /* AsDriverResult.swift */,
 				72860D722144463E00DCDD39 /* CLLocationManager+Rx.swift */,
 				72C491F723209C080027B5D3 /* HasViewModel.swift */,
 				72860D7E21449DC100DCDD39 /* LocationManager.swift */,
@@ -176,6 +178,7 @@
 				720A6A70240935BB00639C6D /* RxRelay */,
 				720A6A72240935BB00639C6D /* RxCocoa */,
 				720A6A752409364D00639C6D /* RxTimelane */,
+				09E688FA244FE47200C69877 /* RxEnumKit */,
 			);
 			productName = RxEarthquake;
 			productReference = 72F60AF0213C1BD10038F961 /* RxEarthquake.app */;
@@ -209,6 +212,7 @@
 			packageReferences = (
 				720A6A6D240935BB00639C6D /* XCRemoteSwiftPackageReference "RxSwift" */,
 				720A6A742409364D00639C6D /* XCRemoteSwiftPackageReference "RxTimelane" */,
+				09E688F9244FE47200C69877 /* XCRemoteSwiftPackageReference "RxEnumKit" */,
 			);
 			productRefGroup = 72F60AF1213C1BD10038F961 /* Products */;
 			projectDirPath = "";
@@ -237,7 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				729D5E1D214DB33000A320C9 /* AsDriverLogError.swift in Sources */,
+				729D5E1D214DB33000A320C9 /* AsDriverResult.swift in Sources */,
 				72860D7D21446DD300DCDD39 /* UIViewController+top.swift in Sources */,
 				72860D7F21449DC100DCDD39 /* LocationManager.swift in Sources */,
 				72860D7921444A0800DCDD39 /* NetworkRequest.swift in Sources */,
@@ -455,6 +459,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		09E688F9244FE47200C69877 /* XCRemoteSwiftPackageReference "RxEnumKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gringoireDM/RxEnumKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
 		720A6A6D240935BB00639C6D /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -474,6 +486,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		09E688FA244FE47200C69877 /* RxEnumKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09E688F9244FE47200C69877 /* XCRemoteSwiftPackageReference "RxEnumKit" */;
+			productName = RxEnumKit;
+		};
 		720A6A6E240935BB00639C6D /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 720A6A6D240935BB00639C6D /* XCRemoteSwiftPackageReference "RxSwift" */;
