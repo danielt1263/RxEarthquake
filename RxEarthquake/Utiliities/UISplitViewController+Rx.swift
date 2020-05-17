@@ -3,7 +3,7 @@
 //  RxEarthquake
 //
 //  Created by Daniel Tartaglia on 2/24/20.
-//  Copyright © 2020 Daniel Tartaglia. All rights reserved.
+//  Copyright © 2020 Daniel Tartaglia. MIT License.
 //
 
 import RxCocoa

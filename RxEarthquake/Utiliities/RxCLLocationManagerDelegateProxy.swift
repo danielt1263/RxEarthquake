@@ -3,7 +3,7 @@
 //  RxExample
 //
 //  Created by Carlos García on 8/7/15.
-//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
+//  Copyright © 2015 Krunoslav Zaher. MIT License.
 //
 
 import CoreLocation

@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,15 +17,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-		coordinator(splitViewController: window!.rootViewController as! UISplitViewController)
-
-		let _ = isNetworkActive
-			.throttle(.milliseconds(500))
-			.drive(onNext: { on in
-				application.isNetworkActivityIndicatorVisible = on
-			})
+		window = UIWindow(frame: UIScreen.main.bounds)
+		window!.rootViewController = createSplit()
+		window!.makeKeyAndVisible()
 
 		return true
 	}
-
 }

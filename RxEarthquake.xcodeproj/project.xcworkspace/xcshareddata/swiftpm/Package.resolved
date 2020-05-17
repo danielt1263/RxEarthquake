@@ -2,48 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "EnumKit",
-        "repositoryURL": "https://github.com/gringoireDM/EnumKit.git",
-        "state": {
-          "branch": null,
-          "revision": "0584d56f1b39dc72d3b18cdd26c6288fffdae0d5",
-          "version": "1.1.2"
-        }
-      },
-      {
-        "package": "RxEnumKit",
-        "repositoryURL": "https://github.com/gringoireDM/RxEnumKit.git",
-        "state": {
-          "branch": null,
-          "revision": "2b1d4ab370b19df93bcbe67ccb64aeb6e62a0f7c",
-          "version": "1.0.3"
-        }
-      },
-      {
         "package": "RxSwift",
-        "repositoryURL": "https://github.com/ReactiveX/RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
         "state": {
           "branch": null,
           "revision": "002d325b0bdee94e7882e1114af5ff4fe1e96afa",
           "version": "5.1.1"
-        }
-      },
-      {
-        "package": "RxTimelane",
-        "repositoryURL": "https://github.com/icanzilb/RxTimelane",
-        "state": {
-          "branch": null,
-          "revision": "3ae130b5127f16b50c4342f609f85c199cbd7852",
-          "version": "1.0.6"
-        }
-      },
-      {
-        "package": "TimelaneCore",
-        "repositoryURL": "https://github.com/icanzilb/TimelaneCore",
-        "state": {
-          "branch": null,
-          "revision": "29d9c8c56575819c025b87c836fb1ce320e405df",
-          "version": "1.0.8"
         }
       }
     ]

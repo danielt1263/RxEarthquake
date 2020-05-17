@@ -3,8 +3,8 @@
 This repository exists to demonstrate my technique and philosophy when building a project using the ReactiveX RxSwift library. Key ideas include:
 
 1. View controllers are isolated and know nothing of their parent or sibling view controllers. This promotes reuse and easy modification.
-2. The code base is written with an output centric approach to help with debugging the system.
-3. The code is written in a highly declarative style with a strong separation between logic and effects to help in understanding.
+2. The code base is written using a Cause-Logic-Effect Architecture.
+3. The resulting code is highly declarative style with a strong separation between logic and effects which help in understanding.
 
 I find these values so useful that I aim to provide them even when not using a FRP library like RxSwift, but using such a library makes writing such code easier.
 
@@ -14,16 +14,20 @@ In a program written in the typical MVC style, every view controller knows how i
 
 In this sample program, the `Coordinator` is in charge of the navigation flow. It determines when and how view controllers are displayed and removed. I expect to need one  Coordinator class for every split view, navigation, or other container controller in the system and that coordinator is in charge of displaying the contents of that container controller. In this particular case, despite there being two navigation controllers, the split view controller is in charge of what they display so I ended up with only one coordinator. If view controllers were getting pushed onto either navigation controller, then another coordinator would be required.
 
-## Output Centric Approach
+## Cause-Logic-Effect Architecture
 
-When first learning to program, and in most sample code, we learn an input centric approach. This means that when examining the code you can readly find a function that defines exactly what happens when, for e.g., a button is tapped or a piece of text is entered. However, when it comes time to figure out what a particular output should read or action should happen we find that there are several functions that all write to that output or perform that action. This makes it hard to track what the output should be at any one time.
+An effect is any side effect, a network request, changing the state of a view, saving to a DB, notifying an external system of some event, etc. Once you have an effect in mind, then you outline the causes (events) that cause that effect to happen, the result of a network request, a user action, a notification from some external system, etc. There are often several causes that all contribute to a single effect... Then you create a function that maps the cause(s) to the effect you are trying to achieve. Such functions can be found in the files titled "...Logic.swift"
 
-In my code, I strive for a more output centric approach. This means there is only one place where a particuler side effect happens and all the reasons that could cause that side effect are gathered together with it. This is where Reactive Extensions help out tremendiously. Output centric code can be done without Rx, but it's much more convoluted. 
+Of course an effect often contributes a cause to some other effect. You will see such code with the network request and when a user chooses an item from the table view of one view controller which influnces the output of a different view controller.
+
+The system also allows us to bundle a bunch of cause-logic-effect chains into a single effect. Examples include the functions that create view controllers. These are cause/effect bundles.
+
+The benefits of the architecture is that logic is isolated and easy to test without the need for test doubles. No mocks, fakes or stubs. No need for dependency injection. New features can easily be added by simply outlining the effects of the new feature, or changes to current effects. Bugs are easy to isolate because all the causes for a particular effect, as well as the logic for that effect, are fully self-contained in a single function.
 
 ## Declarative Style
 
-Most example programs are written in an imperative style, where any particular line of code represents a step in a process and doesn't tell you anything about the process as a whole. Writing with reactive extensions gives me the chance to write code in a more declarative style where each line of code doesn't just represent a step in a process, but rather it represents a fundimental truth, something that will always be the case. I wrote a short article about this subject. [Imperative vs Declarative Programming](https://medium.com/@danielt1263/imperative-vs-declarative-programming-a74f6cceff0e)
+Most example programs are written in an imperative style, where any particular line of code represents a step in a process and doesn't tell you anything about the process as a whole. Writing with reactive extensions gives me the chance to write code in a more declarative style where each function doesn't just represent a step in a process, but rather it represents a fundimental truth, something that will always be the case. I wrote a short article about this subject. [Imperative vs Declarative Programming](https://medium.com/@danielt1263/imperative-vs-declarative-programming-a74f6cceff0e)
 
 ---
 
-If you have any questions about how the code is written, or about the code itself, I would love to read them. Post an issue with your question and I'll do my best to respond.
+If you have any questions about how the code is written, or about the code itself, I would love to read them. Post an issue with your question and I'll do my best to respond. I am also active in the RxSwift slack channel as well as on Stack Overflow.
