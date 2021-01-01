@@ -10,27 +10,22 @@ import CoreLocation
 import MapKit
 import RxCocoa
 import RxSwift
+import SafariServices
 import UIKit
-
-func createEarthquakeDetail(earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) -> UIViewController {
-	let controller = createRaw()
-	controller.bind(earthquake: earthquake, userLocation: userLocation)
-	return controller
-}
 
 struct ShareInfo {
 	let items: [Any]
 	let barButtonItem: Any
 }
 
-private extension EarthquakeDetailViewController {
+extension EarthquakeDetailViewController {
 	func bind(earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) {
 		loadViewIfNeeded()
 
 		earthquake
 			.map { $0.coordinate }
 			.distinctUntilChanged { $0.latitude == $1.latitude && $0.longitude == $1.longitude }
-			.bind { [mapView] coordinate in
+			.bind(onNext: { [mapView] coordinate in
 				let span = MKCoordinateSpan(latitudeDelta: 15, longitudeDelta: 15)
 				mapView?.region = MKCoordinateRegion(center: coordinate, span: span)
 
@@ -38,7 +33,7 @@ private extension EarthquakeDetailViewController {
 				annotation.coordinate = coordinate
 				mapView?.removeAnnotations(mapView?.annotations ?? [])
 				mapView?.addAnnotation(annotation)
-			}
+			})
 			.disposed(by: disposeBag)
 
 		EarthquakeDetailLogic.name(earthquake: earthquake)
@@ -71,8 +66,10 @@ private extension EarthquakeDetailViewController {
 			itemSelected: tableView.rx.itemSelected.asObservable(),
 			earthquake: earthquake
 		)
-			.bind { [weak self] url in
-				self?.presentSafari(url: url, animated: true)
+			.bind { url in
+				finalPresentScene(animated: true) {
+					SFSafariViewController(url: url).scene { $0.rx.deallocating }
+				}
 			}
 			.disposed(by: disposeBag)
 
@@ -80,8 +77,10 @@ private extension EarthquakeDetailViewController {
 			itemSelected: tableView.rx.itemSelected.asObservable(),
 			earthquake: earthquake
 		)
-			.bind { [weak self] title, message in
-				self?.presentAlert(title: title, message: message, animated: true)
+			.bind { title, message in
+				finalPresentScene(animated: true) {
+					UIAlertController(title: title, message: message, preferredStyle: .alert).scene { $0.connectOK() }
+				}
 			}
 			.disposed(by: disposeBag)
 
@@ -90,20 +89,11 @@ private extension EarthquakeDetailViewController {
 			earthquake: earthquake,
 			shareButton: { [weak self] in self?.shareButton }
 		)
-			.bind { [weak self] shareInfo in
-				self?.presentActivity(shareInfo: shareInfo, animated: true)
+			.bind { shareInfo in
+				finalPresentScene(animated: true) {
+					UIActivityViewController(activityItems: shareInfo.items, applicationActivities: nil).scene { $0.rx.deallocating }
+				}
 			}
 			.disposed(by: disposeBag)
 	}
-}
-
-extension SharedSequence {
-	func compactMap<T>(_ transform: @escaping (Element)-> T?) -> SharedSequence<SharingStrategy, T> {
-		return map { transform($0) }.filter { $0 != nil }.map { $0! }
-	}
-}
-
-private func createRaw() -> EarthquakeDetailViewController {
-	let storyboard = UIStoryboard(name: "EarthquakeDetail", bundle: nil)
-	return storyboard.instantiateInitialViewController() as! EarthquakeDetailViewController
 }

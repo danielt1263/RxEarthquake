@@ -7,27 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		721B0D4A2471B95900239B64 /* UISplitViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721B0D492471B95900239B64 /* UISplitViewController+Rx.swift */; };
-		72584B7F2470D6DA008A5313 /* EarthquakeDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72584B7B2470D6DA008A5313 /* EarthquakeDetail.storyboard */; };
+		72584B7F2470D6DA008A5313 /* EarthquakeDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72584B7B2470D6DA008A5313 /* EarthquakeDetailViewController.storyboard */; };
 		72584B802470D6DA008A5313 /* EarthquakeDetailLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584B7C2470D6DA008A5313 /* EarthquakeDetailLogic.swift */; };
 		72584B812470D6DA008A5313 /* EarthquakeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584B7D2470D6DA008A5313 /* EarthquakeDetailViewController.swift */; };
 		72584B822470D6DA008A5313 /* EarthquakeDetailBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584B7E2470D6DA008A5313 /* EarthquakeDetailBinder.swift */; };
 		72584B842470DA42008A5313 /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584B832470DA42008A5313 /* Earthquake.swift */; };
-		72584B8824718831008A5313 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584B8624718831008A5313 /* ActivityIndicator.swift */; };
-		72584B8924718831008A5313 /* ErrorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584B8724718831008A5313 /* ErrorRouter.swift */; };
-		72584B95247197FD008A5313 /* AlertBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584B91247197FD008A5313 /* AlertBinder.swift */; };
-		72584B9E2471AD10008A5313 /* SafariBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584B9A2471AD10008A5313 /* SafariBinder.swift */; };
-		72584BA22471AF4C008A5313 /* ActivityBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584BA12471AF4C008A5313 /* ActivityBinder.swift */; };
 		72584BA52471B249008A5313 /* RxCLLocationManagerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584BA32471B249008A5313 /* RxCLLocationManagerDelegateProxy.swift */; };
 		72584BA62471B249008A5313 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72584BA42471B249008A5313 /* CLLocationManager+Rx.swift */; };
+		72808F4A259F6CD400817D4C /* RxHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F3F259F6CD400817D4C /* RxHelpers.swift */; };
+		72808F4B259F6CD400817D4C /* AlertConnections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F40259F6CD400817D4C /* AlertConnections.swift */; };
+		72808F4D259F6CD400817D4C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F42259F6CD400817D4C /* ActivityIndicator.swift */; };
+		72808F4F259F6CD400817D4C /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F44259F6CD400817D4C /* UIColor+Extensions.swift */; };
+		72808F50259F6CD400817D4C /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F45259F6CD400817D4C /* Scene.swift */; };
+		72808F51259F6CD400817D4C /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F46259F6CD400817D4C /* Stage.swift */; };
+		72808F52259F6CD400817D4C /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F47259F6CD400817D4C /* UIViewController+Rx.swift */; };
+		72808F53259F6CD400817D4C /* UISplitViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F48259F6CD400817D4C /* UISplitViewController+Rx.swift */; };
+		728951E6259F6E2400D100C6 /* ErrorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728951E5259F6E2400D100C6 /* ErrorRouter.swift */; };
 		72BAC3D92403518D00D70666 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAC3D82403518D00D70666 /* RxSwift */; };
 		72BAC3DB2403518D00D70666 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAC3DA2403518D00D70666 /* RxTest */; };
 		72BAC3DD2403518D00D70666 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAC3DC2403518D00D70666 /* RxRelay */; };
 		72BAC3DF2403518D00D70666 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAC3DE2403518D00D70666 /* RxCocoa */; };
-		72BCFA92246E216900D51E93 /* Split.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72BCFA8E246E216900D51E93 /* Split.storyboard */; };
-		72BCFA94246E216900D51E93 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BCFA90246E216900D51E93 /* SplitViewController.swift */; };
 		72BCFA95246E216900D51E93 /* SplitBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BCFA91246E216900D51E93 /* SplitBinder.swift */; };
-		72BCFA9B246E221400D51E93 /* EarthquakeList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72BCFA97246E221400D51E93 /* EarthquakeList.storyboard */; };
+		72BCFA9B246E221400D51E93 /* EarthquakeListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72BCFA97246E221400D51E93 /* EarthquakeListViewController.storyboard */; };
 		72BCFA9C246E221400D51E93 /* EarthquakeListLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BCFA98246E221400D51E93 /* EarthquakeListLogic.swift */; };
 		72BCFA9D246E221400D51E93 /* EarthquakeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BCFA99246E221400D51E93 /* EarthquakeListViewController.swift */; };
 		72BCFA9E246E221400D51E93 /* EarthquakeListBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BCFA9A246E221400D51E93 /* EarthquakeListBinder.swift */; };
@@ -48,23 +49,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		721B0D492471B95900239B64 /* UISplitViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISplitViewController+Rx.swift"; sourceTree = "<group>"; };
-		72584B7B2470D6DA008A5313 /* EarthquakeDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeDetail.storyboard; sourceTree = "<group>"; };
+		72584B7B2470D6DA008A5313 /* EarthquakeDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeDetailViewController.storyboard; sourceTree = "<group>"; };
 		72584B7C2470D6DA008A5313 /* EarthquakeDetailLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDetailLogic.swift; sourceTree = "<group>"; };
 		72584B7D2470D6DA008A5313 /* EarthquakeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDetailViewController.swift; sourceTree = "<group>"; };
 		72584B7E2470D6DA008A5313 /* EarthquakeDetailBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDetailBinder.swift; sourceTree = "<group>"; };
 		72584B832470DA42008A5313 /* Earthquake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
-		72584B8624718831008A5313 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
-		72584B8724718831008A5313 /* ErrorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorRouter.swift; sourceTree = "<group>"; };
-		72584B91247197FD008A5313 /* AlertBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBinder.swift; sourceTree = "<group>"; };
-		72584B9A2471AD10008A5313 /* SafariBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariBinder.swift; sourceTree = "<group>"; };
-		72584BA12471AF4C008A5313 /* ActivityBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBinder.swift; sourceTree = "<group>"; };
 		72584BA32471B249008A5313 /* RxCLLocationManagerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCLLocationManagerDelegateProxy.swift; sourceTree = "<group>"; };
 		72584BA42471B249008A5313 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
-		72BCFA8E246E216900D51E93 /* Split.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Split.storyboard; sourceTree = "<group>"; };
-		72BCFA90246E216900D51E93 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
+		72808F3E259F6CD400817D4C /* RxCLLocationManagerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCLLocationManagerDelegateProxy.swift; sourceTree = "<group>"; };
+		72808F3F259F6CD400817D4C /* RxHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxHelpers.swift; sourceTree = "<group>"; };
+		72808F40259F6CD400817D4C /* AlertConnections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertConnections.swift; sourceTree = "<group>"; };
+		72808F41259F6CD400817D4C /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
+		72808F42259F6CD400817D4C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		72808F43259F6CD400817D4C /* ErrorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorRouter.swift; sourceTree = "<group>"; };
+		72808F44259F6CD400817D4C /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		72808F45259F6CD400817D4C /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		72808F46259F6CD400817D4C /* Stage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
+		72808F47259F6CD400817D4C /* UIViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
+		72808F48259F6CD400817D4C /* UISplitViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISplitViewController+Rx.swift"; sourceTree = "<group>"; };
+		728951E5259F6E2400D100C6 /* ErrorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorRouter.swift; sourceTree = "<group>"; };
 		72BCFA91246E216900D51E93 /* SplitBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBinder.swift; sourceTree = "<group>"; };
-		72BCFA97246E221400D51E93 /* EarthquakeList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeList.storyboard; sourceTree = "<group>"; };
+		72BCFA97246E221400D51E93 /* EarthquakeListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeListViewController.storyboard; sourceTree = "<group>"; };
 		72BCFA98246E221400D51E93 /* EarthquakeListLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeListLogic.swift; sourceTree = "<group>"; };
 		72BCFA99246E221400D51E93 /* EarthquakeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeListViewController.swift; sourceTree = "<group>"; };
 		72BCFA9A246E221400D51E93 /* EarthquakeListBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeListBinder.swift; sourceTree = "<group>"; };
@@ -100,12 +105,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		720F6230259F6D1500AF2A52 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				72808F41259F6CD400817D4C /* CLLocationManager+Rx.swift */,
+				72808F3E259F6CD400817D4C /* RxCLLocationManagerDelegateProxy.swift */,
+				72808F43259F6CD400817D4C /* ErrorRouter.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		7249F938246CE87E00CEC0D7 /* Split */ = {
 			isa = PBXGroup;
 			children = (
 				72BCFA91246E216900D51E93 /* SplitBinder.swift */,
-				72BCFA90246E216900D51E93 /* SplitViewController.swift */,
-				72BCFA8E246E216900D51E93 /* Split.storyboard */,
 			);
 			path = Split;
 			sourceTree = "<group>";
@@ -113,29 +126,19 @@
 		72584B8524718804008A5313 /* Utiliities */ = {
 			isa = PBXGroup;
 			children = (
-				72584B8624718831008A5313 /* ActivityIndicator.swift */,
+				72808F42259F6CD400817D4C /* ActivityIndicator.swift */,
+				72808F40259F6CD400817D4C /* AlertConnections.swift */,
 				72584BA42471B249008A5313 /* CLLocationManager+Rx.swift */,
-				72584B8724718831008A5313 /* ErrorRouter.swift */,
+				728951E5259F6E2400D100C6 /* ErrorRouter.swift */,
 				72584BA32471B249008A5313 /* RxCLLocationManagerDelegateProxy.swift */,
-				721B0D492471B95900239B64 /* UISplitViewController+Rx.swift */,
+				72808F3F259F6CD400817D4C /* RxHelpers.swift */,
+				72808F45259F6CD400817D4C /* Scene.swift */,
+				72808F46259F6CD400817D4C /* Stage.swift */,
+				72808F44259F6CD400817D4C /* UIColor+Extensions.swift */,
+				72808F48259F6CD400817D4C /* UISplitViewController+Rx.swift */,
+				72808F47259F6CD400817D4C /* UIViewController+Rx.swift */,
 			);
 			path = Utiliities;
-			sourceTree = "<group>";
-		};
-		72584B8D247197E7008A5313 /* Alert */ = {
-			isa = PBXGroup;
-			children = (
-				72584B91247197FD008A5313 /* AlertBinder.swift */,
-			);
-			path = Alert;
-			sourceTree = "<group>";
-		};
-		72584B962471ACF3008A5313 /* Safari */ = {
-			isa = PBXGroup;
-			children = (
-				72584B9A2471AD10008A5313 /* SafariBinder.swift */,
-			);
-			path = Safari;
 			sourceTree = "<group>";
 		};
 		72584B9F2471AEF0008A5313 /* Scenes */ = {
@@ -144,19 +147,8 @@
 				7249F938246CE87E00CEC0D7 /* Split */,
 				72BCFA96246E21F000D51E93 /* Earthquake List */,
 				72BCFA9F246E22A800D51E93 /* Earthquake Detail */,
-				72584BA02471AF21008A5313 /* Activity */,
-				72584B8D247197E7008A5313 /* Alert */,
-				72584B962471ACF3008A5313 /* Safari */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		72584BA02471AF21008A5313 /* Activity */ = {
-			isa = PBXGroup;
-			children = (
-				72584BA12471AF4C008A5313 /* ActivityBinder.swift */,
-			);
-			path = Activity;
 			sourceTree = "<group>";
 		};
 		72BCFA96246E21F000D51E93 /* Earthquake List */ = {
@@ -165,7 +157,7 @@
 				72BCFA9A246E221400D51E93 /* EarthquakeListBinder.swift */,
 				72BCFA98246E221400D51E93 /* EarthquakeListLogic.swift */,
 				72BCFA99246E221400D51E93 /* EarthquakeListViewController.swift */,
-				72BCFA97246E221400D51E93 /* EarthquakeList.storyboard */,
+				72BCFA97246E221400D51E93 /* EarthquakeListViewController.storyboard */,
 			);
 			path = "Earthquake List";
 			sourceTree = "<group>";
@@ -176,7 +168,7 @@
 				72584B7E2470D6DA008A5313 /* EarthquakeDetailBinder.swift */,
 				72584B7C2470D6DA008A5313 /* EarthquakeDetailLogic.swift */,
 				72584B7D2470D6DA008A5313 /* EarthquakeDetailViewController.swift */,
-				72584B7B2470D6DA008A5313 /* EarthquakeDetail.storyboard */,
+				72584B7B2470D6DA008A5313 /* EarthquakeDetailViewController.storyboard */,
 			);
 			path = "Earthquake Detail";
 			sourceTree = "<group>";
@@ -187,6 +179,7 @@
 				72CC69112402F640002FA702 /* RxEarthquake */,
 				72CC692A2402F648002FA702 /* RxEarthquakeTests */,
 				72CC69102402F640002FA702 /* Products */,
+				720F6230259F6D1500AF2A52 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -275,7 +268,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Daniel Tartaglia";
 				TargetAttributes = {
 					72CC690E2402F640002FA702 = {
@@ -316,9 +309,8 @@
 			files = (
 				72CC69212402F647002FA702 /* LaunchScreen.storyboard in Resources */,
 				72CC691E2402F647002FA702 /* Assets.xcassets in Resources */,
-				72BCFA92246E216900D51E93 /* Split.storyboard in Resources */,
-				72584B7F2470D6DA008A5313 /* EarthquakeDetail.storyboard in Resources */,
-				72BCFA9B246E221400D51E93 /* EarthquakeList.storyboard in Resources */,
+				72584B7F2470D6DA008A5313 /* EarthquakeDetailViewController.storyboard in Resources */,
+				72BCFA9B246E221400D51E93 /* EarthquakeListViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,21 +328,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72584BA22471AF4C008A5313 /* ActivityBinder.swift in Sources */,
 				72BCFA9E246E221400D51E93 /* EarthquakeListBinder.swift in Sources */,
+				72808F51259F6CD400817D4C /* Stage.swift in Sources */,
 				72584BA52471B249008A5313 /* RxCLLocationManagerDelegateProxy.swift in Sources */,
+				72808F50259F6CD400817D4C /* Scene.swift in Sources */,
+				72808F52259F6CD400817D4C /* UIViewController+Rx.swift in Sources */,
+				72808F4B259F6CD400817D4C /* AlertConnections.swift in Sources */,
 				72BCFA9C246E221400D51E93 /* EarthquakeListLogic.swift in Sources */,
 				72BCFA95246E216900D51E93 /* SplitBinder.swift in Sources */,
-				72584B8824718831008A5313 /* ActivityIndicator.swift in Sources */,
 				72584B812470D6DA008A5313 /* EarthquakeDetailViewController.swift in Sources */,
+				72808F4A259F6CD400817D4C /* RxHelpers.swift in Sources */,
+				72808F4F259F6CD400817D4C /* UIColor+Extensions.swift in Sources */,
 				72584B822470D6DA008A5313 /* EarthquakeDetailBinder.swift in Sources */,
-				72584B95247197FD008A5313 /* AlertBinder.swift in Sources */,
+				728951E6259F6E2400D100C6 /* ErrorRouter.swift in Sources */,
+				72808F4D259F6CD400817D4C /* ActivityIndicator.swift in Sources */,
 				72CC69132402F640002FA702 /* AppDelegate.swift in Sources */,
-				72BCFA94246E216900D51E93 /* SplitViewController.swift in Sources */,
 				72584B802470D6DA008A5313 /* EarthquakeDetailLogic.swift in Sources */,
-				72584B9E2471AD10008A5313 /* SafariBinder.swift in Sources */,
-				721B0D4A2471B95900239B64 /* UISplitViewController+Rx.swift in Sources */,
-				72584B8924718831008A5313 /* ErrorRouter.swift in Sources */,
+				72808F53259F6CD400817D4C /* UISplitViewController+Rx.swift in Sources */,
 				72584BA62471B249008A5313 /* CLLocationManager+Rx.swift in Sources */,
 				72584B842470DA42008A5313 /* Earthquake.swift in Sources */,
 				72BCFA9D246E221400D51E93 /* EarthquakeListViewController.swift in Sources */,
@@ -413,6 +407,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -437,7 +432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -473,6 +468,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -491,7 +487,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

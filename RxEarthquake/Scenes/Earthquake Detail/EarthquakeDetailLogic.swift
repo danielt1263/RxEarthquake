@@ -43,7 +43,7 @@ enum EarthquakeDetailLogic {
 	static func presentAlert(itemSelected: Observable<IndexPath>, earthquake: Observable<Earthquake>) -> Observable<(title: String, message: String)> {
 		weblink(itemSelected: itemSelected, earthquake: earthquake)
 			.filter { $0 == nil }
-			.map { _ in }
+			.map(to: ())
 			.map { (title: "No Information", message: "No other information is available for this earthquake") }
 	}
 
@@ -70,7 +70,7 @@ enum EarthquakeDetailLogic {
 private func weblink(itemSelected: Observable<IndexPath>, earthquake: Observable<Earthquake>) -> Observable<URL?> {
 	itemSelected
 		.filter { $0.section == 1 && $0.row == 0 }
-		.map { _ in }
+		.map(to: ())
 		.withLatestFrom(earthquake)
 		.map { $0.weblink }
 }

@@ -14,7 +14,7 @@ enum EarthquakeListLogic {
 	static func request(refreshTrigger: Observable<Void>, appearTrigger: Observable<[Any]>) -> Observable<URLRequest> {
 		Observable.merge(
 			refreshTrigger,
-			appearTrigger.map { _ in }
+			appearTrigger.map(to: ())
 		)
 			.map { earthquakeSummary }
 	}

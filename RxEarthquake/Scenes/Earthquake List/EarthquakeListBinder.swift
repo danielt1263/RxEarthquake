@@ -10,17 +10,12 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-func createEarthquakeList() -> (UIViewController, Observable<Earthquake>) {
-	let controller = createRaw()
-	return (controller, controller.bind())
-}
-
-private extension EarthquakeListViewController {
+extension EarthquakeListViewController {
 	func bind() -> Observable<Earthquake> {
 		loadViewIfNeeded()
 
 		let activityIndicator = ActivityIndicator()
-		let errorRouter = ErrorRouter()
+		let errorRouter = PublishSubject<Error>()
 
 		let earthquakeData = EarthquakeListLogic.request(
 			refreshTrigger: refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
@@ -29,7 +24,7 @@ private extension EarthquakeListViewController {
 			.flatMapLatest { request in
 				URLSession.shared.rx.data(request: request)
 					.trackActivity(activityIndicator)
-					.rerouteError(errorRouter)
+					.rerouteError(errorRouter.asObserver())
 			}
 			.share(replay: 1)
 
@@ -56,8 +51,10 @@ private extension EarthquakeListViewController {
 
 		errorRouter.asObservable()
 			.map { (title: "Error", message: $0.localizedDescription) }
-			.bind { [weak self] title, message in
-				self?.presentAlert(title: title, message: message, animated: true)
+			.bind { title, message in
+				finalPresentScene(animated: true) {
+					UIAlertController(title: title, message: message, preferredStyle: .alert).scene { $0.connectOK() }
+				}
 			}
 			.disposed(by: disposeBag)
 
@@ -73,9 +70,4 @@ struct EarthquakeCellDisplay {
 	let date: String
 	let magnitude: String
 	let imageName: String
-}
-
-private func createRaw() -> EarthquakeListViewController {
-	let storyboard = UIStoryboard(name: "EarthquakeList", bundle: nil)
-	return storyboard.instantiateInitialViewController() as! EarthquakeListViewController
 }

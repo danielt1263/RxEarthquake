@@ -58,9 +58,7 @@ extension Reactive where Base: CLLocationManager {
 	*/
 	public var didPauseLocationUpdates: Observable<Void> {
 		return delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManagerDidPauseLocationUpdates(_:)))
-			.map { _ in
-				return ()
-		}
+			.map(to: ())
 	}
 
 	/**
@@ -68,9 +66,7 @@ extension Reactive where Base: CLLocationManager {
 	*/
 	public var didResumeLocationUpdates: Observable<Void> {
 		return delegate.methodInvoked( #selector(CLLocationManagerDelegate.locationManagerDidResumeLocationUpdates(_:)))
-			.map { _ in
-				return ()
-		}
+			.map(to: ())
 	}
 
 	// MARK: Responding to Heading Events

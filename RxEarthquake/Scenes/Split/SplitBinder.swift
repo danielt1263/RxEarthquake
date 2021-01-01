@@ -11,43 +11,40 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-func createSplit() -> UISplitViewController {
-	let controller = UISplitViewController()
+extension UISplitViewController {
+	func bind() {
+		let masterScene = EarthquakeListViewController.scene { $0.bind() }
+		let masterNavigation = UINavigationController(rootViewController: masterScene.controller)
 
-	let (master, earthquake) = createEarthquakeList()
-	let masterNavigation = UINavigationController(rootViewController: master)
-
-	let detail = createEarthquakeDetail(
-		earthquake: earthquake,
-		userLocation: locationManager.rx.didUpdateLocations.compactMap { $0.last }
-	)
-	let detailNavigation = UINavigationController(rootViewController: detail)
-
-	controller.viewControllers = [masterNavigation, detailNavigation]
-	controller.preferredDisplayMode = .allVisible
-
-	_ = locationManager.rx.didChangeAuthorizationStatus
-		.filter { $0 == .authorizedAlways || $0 == .authorizedWhenInUse }
-		.map { _ in }
-		.takeUntil(controller.rx.deallocating)
-		.bind { [weak locationManager] in
-			locationManager?.startMonitoringSignificantLocationChanges()
+		let detail = EarthquakeDetailViewController.create {
+			$0.bind(earthquake: masterScene.action, userLocation: locationManager.rx.didUpdateLocations.compactMap { $0.last })
 		}
+		let detailNavigation = UINavigationController(rootViewController: detail)
 
-	_ = earthquake
-		.map { _ in }
-		.takeUntil(controller.rx.deallocating)
-		.bind { [unowned controller, unowned detailNavigation] in
-			controller.showDetailViewController(detailNavigation, sender: nil)
-		}
+		viewControllers = [masterNavigation, detailNavigation]
+		preferredDisplayMode = .allVisible
 
-	_ = earthquake
-		.map { _ in false }
-		.startWith(true)
-		.takeUntil(controller.rx.deallocating)
-		.bind(to: controller.rx.collapseSecondaryOntoPrimary)
+		_ = locationManager.rx.didChangeAuthorizationStatus
+			.filter { $0 == .authorizedAlways || $0 == .authorizedWhenInUse }
+			.map(to: ())
+			.takeUntil(rx.deallocating)
+			.bind { [weak locationManager] in
+				locationManager?.startMonitoringSignificantLocationChanges()
+			}
 
-	return controller
+		_ = masterScene.action
+			.map(to: ())
+			.takeUntil(rx.deallocating)
+			.bind { [unowned self, unowned detailNavigation] in
+				self.showDetailViewController(detailNavigation, sender: nil)
+			}
+
+		_ = masterScene.action
+			.map(to: false)
+			.startWith(true)
+			.takeUntil(rx.deallocating)
+			.bind(to: rx.collapseSecondaryOntoPrimary)
+	}
 }
 
 private let locationManager: CLLocationManager = {
