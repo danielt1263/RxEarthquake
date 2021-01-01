@@ -27,22 +27,22 @@ extension UISplitViewController {
 		_ = locationManager.rx.didChangeAuthorizationStatus
 			.filter { $0 == .authorizedAlways || $0 == .authorizedWhenInUse }
 			.map(to: ())
-			.takeUntil(rx.deallocating)
-			.bind { [weak locationManager] in
-				locationManager?.startMonitoringSignificantLocationChanges()
+			.take(until: rx.deallocating)
+			.bind {
+				locationManager.startMonitoringSignificantLocationChanges()
 			}
 
 		_ = masterScene.action
 			.map(to: ())
-			.takeUntil(rx.deallocating)
-			.bind { [unowned self, unowned detailNavigation] in
+			.take(until: rx.deallocating)
+			.bind {
 				self.showDetailViewController(detailNavigation, sender: nil)
 			}
 
 		_ = masterScene.action
 			.map(to: false)
 			.startWith(true)
-			.takeUntil(rx.deallocating)
+			.take(until: rx.deallocating)
 			.bind(to: rx.collapseSecondaryOntoPrimary)
 	}
 }

@@ -17,10 +17,8 @@
 		72808F4A259F6CD400817D4C /* RxHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F3F259F6CD400817D4C /* RxHelpers.swift */; };
 		72808F4B259F6CD400817D4C /* AlertConnections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F40259F6CD400817D4C /* AlertConnections.swift */; };
 		72808F4D259F6CD400817D4C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F42259F6CD400817D4C /* ActivityIndicator.swift */; };
-		72808F4F259F6CD400817D4C /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F44259F6CD400817D4C /* UIColor+Extensions.swift */; };
 		72808F50259F6CD400817D4C /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F45259F6CD400817D4C /* Scene.swift */; };
 		72808F51259F6CD400817D4C /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F46259F6CD400817D4C /* Stage.swift */; };
-		72808F52259F6CD400817D4C /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F47259F6CD400817D4C /* UIViewController+Rx.swift */; };
 		72808F53259F6CD400817D4C /* UISplitViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72808F48259F6CD400817D4C /* UISplitViewController+Rx.swift */; };
 		728951E6259F6E2400D100C6 /* ErrorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728951E5259F6E2400D100C6 /* ErrorRouter.swift */; };
 		72BAC3D92403518D00D70666 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAC3D82403518D00D70666 /* RxSwift */; };
@@ -62,10 +60,8 @@
 		72808F41259F6CD400817D4C /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
 		72808F42259F6CD400817D4C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		72808F43259F6CD400817D4C /* ErrorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorRouter.swift; sourceTree = "<group>"; };
-		72808F44259F6CD400817D4C /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		72808F45259F6CD400817D4C /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		72808F46259F6CD400817D4C /* Stage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
-		72808F47259F6CD400817D4C /* UIViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 		72808F48259F6CD400817D4C /* UISplitViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISplitViewController+Rx.swift"; sourceTree = "<group>"; };
 		728951E5259F6E2400D100C6 /* ErrorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorRouter.swift; sourceTree = "<group>"; };
 		72BCFA91246E216900D51E93 /* SplitBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBinder.swift; sourceTree = "<group>"; };
@@ -134,9 +130,7 @@
 				72808F3F259F6CD400817D4C /* RxHelpers.swift */,
 				72808F45259F6CD400817D4C /* Scene.swift */,
 				72808F46259F6CD400817D4C /* Stage.swift */,
-				72808F44259F6CD400817D4C /* UIColor+Extensions.swift */,
 				72808F48259F6CD400817D4C /* UISplitViewController+Rx.swift */,
-				72808F47259F6CD400817D4C /* UIViewController+Rx.swift */,
 			);
 			path = Utiliities;
 			sourceTree = "<group>";
@@ -332,13 +326,11 @@
 				72808F51259F6CD400817D4C /* Stage.swift in Sources */,
 				72584BA52471B249008A5313 /* RxCLLocationManagerDelegateProxy.swift in Sources */,
 				72808F50259F6CD400817D4C /* Scene.swift in Sources */,
-				72808F52259F6CD400817D4C /* UIViewController+Rx.swift in Sources */,
 				72808F4B259F6CD400817D4C /* AlertConnections.swift in Sources */,
 				72BCFA9C246E221400D51E93 /* EarthquakeListLogic.swift in Sources */,
 				72BCFA95246E216900D51E93 /* SplitBinder.swift in Sources */,
 				72584B812470D6DA008A5313 /* EarthquakeDetailViewController.swift in Sources */,
 				72808F4A259F6CD400817D4C /* RxHelpers.swift in Sources */,
-				72808F4F259F6CD400817D4C /* UIColor+Extensions.swift in Sources */,
 				72584B822470D6DA008A5313 /* EarthquakeDetailBinder.swift in Sources */,
 				728951E6259F6E2400D100C6 /* ErrorRouter.swift in Sources */,
 				72808F4D259F6CD400817D4C /* ActivityIndicator.swift in Sources */,
@@ -615,7 +607,7 @@
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.1;
+				minimumVersion = 6.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

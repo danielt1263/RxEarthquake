@@ -25,15 +25,7 @@ extension EarthquakeDetailViewController {
 		earthquake
 			.map { $0.coordinate }
 			.distinctUntilChanged { $0.latitude == $1.latitude && $0.longitude == $1.longitude }
-			.bind(onNext: { [mapView] coordinate in
-				let span = MKCoordinateSpan(latitudeDelta: 15, longitudeDelta: 15)
-				mapView?.region = MKCoordinateRegion(center: coordinate, span: span)
-
-				let annotation = MKPointAnnotation()
-				annotation.coordinate = coordinate
-				mapView?.removeAnnotations(mapView?.annotations ?? [])
-				mapView?.addAnnotation(annotation)
-			})
+			.bind(to: mapView.rx.focusMap)
 			.disposed(by: disposeBag)
 
 		EarthquakeDetailLogic.name(earthquake: earthquake)
@@ -57,8 +49,9 @@ extension EarthquakeDetailViewController {
 			.disposed(by: disposeBag)
 
 		tableView.rx.itemSelected
-			.bind { [weak self] in
-				self?.tableView.deselectRow(at: $0, animated: true)
+			.withUnretained(tableView)
+			.bind { tableView, indexPath in
+				tableView.deselectRow(at: indexPath, animated: true)
 			}
 			.disposed(by: disposeBag)
 
@@ -95,5 +88,18 @@ extension EarthquakeDetailViewController {
 				}
 			}
 			.disposed(by: disposeBag)
+	}
+}
+
+extension Reactive where Base: MKMapView {
+	var focusMap: Binder<CLLocationCoordinate2D> {
+		Binder(base) { mapView, coordinate in
+			let span = MKCoordinateSpan(latitudeDelta: 15, longitudeDelta: 15)
+			let annotation = MKPointAnnotation()
+			annotation.coordinate = coordinate
+			mapView.region = MKCoordinateRegion(center: coordinate, span: span)
+			mapView.removeAnnotations(mapView.annotations)
+			mapView.addAnnotation(annotation)
+		}
 	}
 }
