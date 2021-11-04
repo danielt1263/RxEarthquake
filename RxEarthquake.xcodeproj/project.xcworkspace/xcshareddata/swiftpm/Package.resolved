@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
+        "package": "Cause-Logic-Effect",
+        "repositoryURL": "https://github.com/danielt1263/CLE-Architecture-Tools",
+        "state": {
+          "branch": "main",
+          "revision": "5970eda1b81ea50bb97db83df59f2f33d19450cc",
+          "version": null
+        }
+      },
+      {
         "package": "RxSwift",
         "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
         "state": {
           "branch": null,
-          "revision": "c8742ed97fc2f0c015a5ea5eddefb064cd7532d2",
-          "version": "6.0.0"
+          "revision": "7c17a6ccca06b5c107cfa4284e634562ddaf5951",
+          "version": "6.2.0"
         }
       }
     ]

@@ -2,39 +2,44 @@
 //  EarthquakeListLogic.swift
 //  RxEarthquake
 //
-//  Created by Daniel Tartaglia on 5/14/20.
-//  Copyright © 2020 Daniel Tartaglia. MIT License.
+//  Created by Daniel Tartaglia on September 8, 2018.
+//  Copyright © 2021 Daniel Tartaglia. MIT License.
 //
 
+import Cause_Logic_Effect
 import Foundation
 import RxSwift
 
 enum EarthquakeListLogic {
 
-	static func request(refreshTrigger: Observable<Void>, appearTrigger: Observable<[Any]>) -> Observable<URLRequest> {
+	static func request(refreshTrigger: Observable<Void>, appearTrigger: Observable<Bool>) -> Observable<Endpoint<[Earthquake]>> {
 		Observable.merge(
 			refreshTrigger,
 			appearTrigger.map(to: ())
 		)
-			.map { earthquakeSummary }
+			.map { .earthquakeSummary }
 	}
 
-	static func cellData(earthquakeData: Observable<Data>) -> Observable<[EarthquakeCellDisplay]> {
+	static func cellData(earthquakeData: Observable<[Earthquake]>) -> Observable<[EarthquakeCellDisplay]> {
 		earthquakeData
-			.map { Earthquake.earthquakes(from: $0) }
 			.map { $0.map { EarthquakeCellDisplay(earthquake: $0) } }
 	}
 
-	static func chooseEarthquake(trigger: Observable<IndexPath>, earthquakeData: Observable<Data>) -> Observable<Earthquake> {
+	static func chooseEarthquake(trigger: Observable<IndexPath>, earthquakes: Observable<[Earthquake]>) -> Observable<Earthquake> {
 		trigger
-			.withLatestFrom(earthquakeData.map { Earthquake.earthquakes(from: $0) }) { $1[$0.row] }
+			.withLatestFrom(earthquakes) { $1[$0.row] }
 	}
 }
 
-private let earthquakeSummary: URLRequest = {
-	let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson")!
-	return URLRequest(url: url)
-}()
+extension Endpoint where T == [Earthquake] {
+	fileprivate static let earthquakeSummary: Endpoint = {
+		let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson")!
+		return Endpoint(
+			request: URLRequest(url: url),
+			response: Earthquake.earthquakes(from:)
+		)
+	}()
+}
 
 private extension EarthquakeCellDisplay {
 	init(earthquake: Earthquake) {

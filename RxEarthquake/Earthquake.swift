@@ -2,16 +2,16 @@
 //  Earthquake.swift
 //  RxEarthquake
 //
-//  Created by Daniel Tartaglia on 9/2/18.
-//  Copyright © 2018 Daniel Tartaglia. MIT License.
+//  Created by Daniel Tartaglia on September 8, 2018.
+//  Copyright © 2021 Daniel Tartaglia. MIT License.
 //
 
-import Foundation
+import Cause_Logic_Effect
 import CoreLocation
+import Foundation
 
-struct Earthquake {
-	typealias ID = Identifier<Earthquake>
-	let id: ID
+struct Earthquake: Identifiable {
+	let id: Identifier<String, Earthquake>
 	let coordinate: CLLocationCoordinate2D
 	let depth: Double
 	let magnitude: Double
@@ -37,10 +37,6 @@ extension Earthquake {
 		weblink = feature.properties.url
 		location = CLLocation(coordinate: coordinate, altitude: -depth, horizontalAccuracy: kCLLocationAccuracyBest, verticalAccuracy: kCLLocationAccuracyBest, timestamp: timestamp)
 	}
-}
-
-struct Identifier<T>: RawRepresentable {
-	let rawValue: String
 }
 
 private struct EarthquakeSummary: Decodable {

@@ -2,16 +2,16 @@
 //  EarthquakeDetailViewController.swift
 //  RxEarthquake
 //
-//  Created by Daniel Tartaglia on 5/16/20.
-//	Copyright © 2020 Daniel Tartaglia. MIT License.
+//  Created by Daniel Tartaglia on September 8, 2018.
+//  Copyright © 2021 Daniel Tartaglia. MIT License.
 //
 
-import UIKit
-import RxSwift
 import MapKit
+import RxSwift
+import UIKit
 
 final class EarthquakeDetailViewController: UITableViewController {
-
+	
 	@IBOutlet weak var depthLabel: UILabel!
 	@IBOutlet weak var distanceLabel: UILabel!
 	@IBOutlet weak var magnitudeLabel: UILabel!

@@ -2,77 +2,62 @@
 //  EarthquakeDetailLogic.swift
 //  RxEarthquake
 //
-//  Created by Daniel Tartaglia on 9/7/18.
-//  Copyright © 2018 Daniel Tartaglia. MIT License.//
+//  Created by Daniel Tartaglia on September 8, 2018.
+//  Copyright © 2021 Daniel Tartaglia. MIT License.
 //
 
+import CoreLocation
 import Foundation
 import RxSwift
-import CoreLocation
 
 enum EarthquakeDetailLogic {
-
-	static func name(earthquake: Observable<Earthquake>) -> Observable<String> {
-		earthquake
-			.map { $0.name }
+	
+	static func magnitude(earthquake: Earthquake) -> String? {
+		magnitudeFormatter.string(from: earthquake.magnitude as NSNumber)
 	}
-
-	static func magnitude(earthquake: Observable<Earthquake>) -> Observable<String> {
-		earthquake
-			.map { $0.magnitude }
-			.compactMap { magnitudeFormatter.string(from: $0 as NSNumber) }
+	
+	static func depth(earthquake: Earthquake) -> String {
+		depthFormatter.string(fromMeters: earthquake.depth)
 	}
-
-	static func depth(earthquake: Observable<Earthquake>) -> Observable<String> {
-		earthquake
-			.map { depthFormatter.string(fromMeters: $0.depth) }
+	
+	static func time(earthquake: Earthquake) -> String {
+		timestampFormatter.string(from: earthquake.timestamp)
 	}
-
-	static func time(earthquake: Observable<Earthquake>) -> Observable<String> {
-		earthquake
-			.map { $0.timestamp }
-			.map { timestampFormatter.string(from: $0) }
+	
+	static func distance(earthquake: Earthquake, authorization: Observable<CLAuthorizationStatus>, userLocations: Observable<[CLLocation]>) -> Observable<String> {
+		Observable.combineLatest(authorization, userLocations.startWith([]))
+		{ (authorization, locations) -> String in
+			if let location = locations.last, authorization == .authorizedAlways || authorization == .authorizedWhenInUse {
+				return distanceFormatter.string(fromMeters: location.distance(from: earthquake.location))
+			}
+			else {
+				return "Unknown"
+			}
+		}
 	}
-
-	static func distance(earthquake: Observable<Earthquake>, userLocation: Observable<CLLocation>) -> Observable<String> {
-		Observable.combineLatest(earthquake, userLocation)
-			.map { $1.distance(from: $0.location) }
-			.map { distanceFormatter.string(fromMeters: $0) }
-	}
-
-	static func presentAlert(itemSelected: Observable<IndexPath>, earthquake: Observable<Earthquake>) -> Observable<(title: String, message: String)> {
-		weblink(itemSelected: itemSelected, earthquake: earthquake)
+	
+	static func presentAlert(earthquake: Earthquake, itemSelected: Observable<IndexPath>) -> Observable<(title: String, message: String)> {
+		weblink(earthquake: earthquake, itemSelected: itemSelected)
 			.filter { $0 == nil }
 			.map(to: ())
 			.map { (title: "No Information", message: "No other information is available for this earthquake") }
 	}
-
-	static func presentSafari(itemSelected: Observable<IndexPath>, earthquake: Observable<Earthquake>) -> Observable<URL> {
-		weblink(itemSelected: itemSelected, earthquake: earthquake)
+	
+	static func presentSafari(earthquake: Earthquake, itemSelected: Observable<IndexPath>) -> Observable<URL> {
+		weblink(earthquake: earthquake, itemSelected: itemSelected)
 			.compactMap { $0 }
 	}
-
-	static func presentShare(shareTrigger: Observable<Void>, earthquake: Observable<Earthquake>, shareButton: @escaping () -> Any?) -> Observable<ShareInfo> {
+	
+	static func presentShare(earthquake: Earthquake, shareTrigger: Observable<Void>) -> Observable<[Any]> {
 		shareTrigger
-			.compactMap(shareButton)
-			.withLatestFrom(earthquake) { ($0, $1) }
-			.map { (barButtonItem, earthquake) -> ShareInfo in
-				if let url = earthquake.weblink {
-					return ShareInfo(items: [url, earthquake.location], barButtonItem: barButtonItem)
-				}
-				else {
-					return ShareInfo(items: [earthquake.location], barButtonItem: barButtonItem)
-				}
-			}
+			.map(to: [earthquake.location as Any] + (earthquake.weblink.map { [$0 as Any] } ?? []))
 	}
 }
 
-private func weblink(itemSelected: Observable<IndexPath>, earthquake: Observable<Earthquake>) -> Observable<URL?> {
+private func weblink(earthquake: Earthquake, itemSelected: Observable<IndexPath>) -> Observable<URL?> {
 	itemSelected
 		.filter { $0.section == 1 && $0.row == 0 }
-		.map(to: ())
-		.withLatestFrom(earthquake)
-		.map { $0.weblink }
+		.map(to: earthquake.weblink)
 }
 
 private
@@ -94,10 +79,10 @@ let depthFormatter: LengthFormatter = {
 private
 let timestampFormatter: DateFormatter = {
 	let timestampFormatter = DateFormatter()
-
+	
 	timestampFormatter.dateStyle = .medium
 	timestampFormatter.timeStyle = .medium
-
+	
 	return timestampFormatter
 }()
 
