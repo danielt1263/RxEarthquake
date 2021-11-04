@@ -31,8 +31,15 @@ enum EarthquakeListLogic {
 	}
 }
 
-extension Endpoint where T == [Earthquake] {
-	fileprivate static let earthquakeSummary: Endpoint = {
+struct EarthquakeCellDisplay {
+	let place: String
+	let date: String
+	let magnitude: String
+	let imageName: String
+}
+
+private extension Endpoint where T == [Earthquake] {
+	static let earthquakeSummary: Endpoint = {
 		let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson")!
 		return Endpoint(
 			request: URLRequest(url: url),

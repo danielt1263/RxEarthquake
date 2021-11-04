@@ -22,9 +22,9 @@ struct Earthquake: Identifiable {
 }
 
 extension Earthquake {
-	static func earthquakes(from data: Data) -> [Earthquake] {
-		let earthquakeSummary = try? JSONDecoder().decode(EarthquakeSummary.self, from: data)
-		return earthquakeSummary?.features.map(Earthquake.init(feature:)) ?? []
+	static func earthquakes(from data: Data) throws -> [Earthquake] {
+		let earthquakeSummary = try JSONDecoder().decode(EarthquakeSummary.self, from: data)
+		return earthquakeSummary.features.map { Earthquake(feature: $0) }
 	}
 
 	private init(feature: Feature) {

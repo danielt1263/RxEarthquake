@@ -50,12 +50,6 @@ extension EarthquakeListViewController {
 		return EarthquakeListLogic.chooseEarthquake(
 			trigger: tableView.rx.itemSelected.asObservable(),
 			earthquakes: earthquakes
-		)	}
-}
-
-struct EarthquakeCellDisplay {
-	let place: String
-	let date: String
-	let magnitude: String
-	let imageName: String
+		)
+	}
 }

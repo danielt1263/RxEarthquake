@@ -68,21 +68,3 @@ extension EarthquakeDetailViewController {
 			.disposed(by: disposeBag)
 	}
 }
-
-extension Reactive where Base: MKMapView {
-	var focusMap: Binder<CLLocationCoordinate2D> {
-		Binder(base) { mapView, coordinate in
-			let span = MKCoordinateSpan(latitudeDelta: 15, longitudeDelta: 15)
-			let annotation = MKPointAnnotation()
-			annotation.coordinate = coordinate
-			mapView.region = MKCoordinateRegion(center: coordinate, span: span)
-			mapView.removeAnnotations(mapView.annotations)
-			mapView.addAnnotation(annotation)
-		}
-	}
-}
-
-struct ShareInfo {
-	let items: [Any]
-	let barButtonItem: Any
-}

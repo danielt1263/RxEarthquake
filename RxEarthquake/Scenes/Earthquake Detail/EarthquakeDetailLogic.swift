@@ -60,8 +60,7 @@ private func weblink(earthquake: Earthquake, itemSelected: Observable<IndexPath>
 		.map(to: earthquake.weblink)
 }
 
-private
-let magnitudeFormatter: NumberFormatter = {
+private let magnitudeFormatter: NumberFormatter = {
 	let result = NumberFormatter()
 	result.numberStyle = .decimal
 	result.maximumFractionDigits = 1
@@ -69,25 +68,20 @@ let magnitudeFormatter: NumberFormatter = {
 	return result
 }()
 
-private
-let depthFormatter: LengthFormatter = {
+private let depthFormatter: LengthFormatter = {
 	let result = LengthFormatter()
 	result.isForPersonHeightUse = false
 	return result
 }()
 
-private
-let timestampFormatter: DateFormatter = {
+private let timestampFormatter: DateFormatter = {
 	let timestampFormatter = DateFormatter()
-	
 	timestampFormatter.dateStyle = .medium
 	timestampFormatter.timeStyle = .medium
-	
 	return timestampFormatter
 }()
 
-private
-let distanceFormatter: LengthFormatter = {
+private let distanceFormatter: LengthFormatter = {
 	let result = LengthFormatter()
 	result.isForPersonHeightUse = false
 	result.numberFormatter.maximumFractionDigits = 2
