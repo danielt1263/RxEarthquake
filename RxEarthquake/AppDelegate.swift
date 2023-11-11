@@ -21,8 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			$0.rootViewController = UISplitViewController().configure { $0.connect() }
 			$0.makeKeyAndVisible()
 		}
-		
-		_ = locationManager.rx.didChangeAuthorizationStatus
+
+		_ = locationManager.rx.didChangeAuthorization
 			.filter { $0 == .authorizedAlways || $0 == .authorizedWhenInUse }
 			.map(to: ())
 			.take(until: rx.deallocating)

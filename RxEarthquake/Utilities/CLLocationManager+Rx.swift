@@ -16,12 +16,12 @@ extension Reactive where Base: CLLocationManager {
 	var delegate: CLLocationManagerDelegateProxy {
 		CLLocationManagerDelegateProxy.proxy(for: base)
 	}
-	
-	@available(iOS, introduced: 4.2, deprecated: 14.0)
-	var didChangeAuthorizationStatus: Observable<CLAuthorizationStatus> {
-		delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManager(_:didChangeAuthorization:)))
-			.map { CLAuthorizationStatus(rawValue: Int32(truncating: $0[1] as! NSNumber)) ?? .notDetermined }
-			.startWith(CLLocationManager.authorizationStatus())
+
+	var didChangeAuthorization: Observable<CLAuthorizationStatus> {
+		delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManagerDidChangeAuthorization(_:)))
+			.flatMap { _ in Observable.just(base.authorizationStatus) }
+			.startWith(base.authorizationStatus)
+			.distinctUntilChanged()
 	}
 
 	var didUpdateLocations: Observable<[CLLocation]> {
@@ -35,7 +35,7 @@ final class CLLocationManagerDelegateProxy
 : DelegateProxy<CLLocationManager, CLLocationManagerDelegate>
 , DelegateProxyType
 , CLLocationManagerDelegate {
-	
+
 	init(parentObject: CLLocationManager) {
 		super.init(
 			parentObject: parentObject,
@@ -50,7 +50,7 @@ final class CLLocationManagerDelegateProxy
 	public static func registerKnownImplementations() {
 		self.register { CLLocationManagerDelegateProxy(parentObject: $0) }
 	}
-	
+
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		_didUpdateLocations.onNext(locations)
 	}

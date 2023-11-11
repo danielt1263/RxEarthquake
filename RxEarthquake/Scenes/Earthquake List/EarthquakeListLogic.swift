@@ -17,7 +17,7 @@ enum EarthquakeListLogic {
 			refreshTrigger,
 			appearTrigger.map(to: ())
 		)
-			.map { .earthquakeSummary }
+		.map { .earthquakeSummary }
 	}
 
 	static func cellData(earthquakeSummary: Observable<EarthquakeSummary>) -> Observable<[EarthquakeCellDisplay]> {
@@ -25,9 +25,11 @@ enum EarthquakeListLogic {
 			.map { try Earthquake.earthquakes(from: $0).map { EarthquakeCellDisplay(earthquake: $0) } }
 	}
 
-	static func chooseEarthquake(trigger: Observable<IndexPath>, earthquakes: Observable<[Earthquake]>) -> Observable<Earthquake> {
+	static func chooseEarthquake(trigger: Observable<IndexPath>, earthquakeSummary: Observable<EarthquakeSummary>) -> Observable<Earthquake> {
 		trigger
-			.withLatestFrom(earthquakes) { $1[$0.row] }
+			.withLatestFrom(
+				earthquakeSummary.map(Earthquake.earthquakes(from:))
+			) { $1[$0.row] }
 	}
 }
 

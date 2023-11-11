@@ -11,19 +11,19 @@ import Foundation
 import RxSwift
 
 enum EarthquakeDetailLogic {
-	
+
 	static func magnitude(earthquake: Earthquake) -> String? {
 		magnitudeFormatter.string(from: earthquake.magnitude as NSNumber)
 	}
-	
+
 	static func depth(earthquake: Earthquake) -> String {
 		depthFormatter.string(fromMeters: earthquake.depth)
 	}
-	
+
 	static func time(earthquake: Earthquake) -> String {
 		timestampFormatter.string(from: earthquake.timestamp)
 	}
-	
+
 	static func distance(earthquake: Earthquake, authorization: Observable<CLAuthorizationStatus>, userLocations: Observable<[CLLocation]>) -> Observable<String> {
 		Observable.combineLatest(authorization, userLocations.startWith([]))
 		{ (authorization, locations) -> String in
@@ -35,19 +35,19 @@ enum EarthquakeDetailLogic {
 			}
 		}
 	}
-	
+
 	static func presentAlert(earthquake: Earthquake, itemSelected: Observable<IndexPath>) -> Observable<(title: String, message: String)> {
 		weblink(earthquake: earthquake, itemSelected: itemSelected)
 			.filter { $0 == nil }
 			.map(to: ())
 			.map { (title: "No Information", message: "No other information is available for this earthquake") }
 	}
-	
+
 	static func presentSafari(earthquake: Earthquake, itemSelected: Observable<IndexPath>) -> Observable<URL> {
 		weblink(earthquake: earthquake, itemSelected: itemSelected)
 			.compactMap { $0 }
 	}
-	
+
 	static func presentShare(earthquake: Earthquake, shareTrigger: Observable<Void>) -> Observable<[Any]> {
 		shareTrigger
 			.map(to: [earthquake.location as Any] + (earthquake.weblink.map { [$0 as Any] } ?? []))

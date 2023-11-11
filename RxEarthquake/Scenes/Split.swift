@@ -13,19 +13,13 @@ import UIKit
 extension UISplitViewController {
 	func connect() {
 		let master = EarthquakeListViewController.scene { $0.connect() }
-		
-		preferredDisplayMode = .allVisible
+		preferredDisplayMode = .automatic
 
 		viewControllers = [UINavigationController(rootViewController: master.controller)]
-		
+
 		_ = master.action
 			.take(until: rx.deallocating)
-			.bind(onNext: showDetailScene(sender: nil) { earthquake in
-				UINavigationController(
-					rootViewController: EarthquakeDetailViewController.create { $0.connect(earthquake: earthquake) }
-				)
-				.scene { _ in Observable<Never>.never() }
-			})
+			.bind(onNext: showDetailScene(sender: nil, scene: detailScene(earthquake:)))
 
 		_ = master.action
 			.map(to: false)
@@ -33,4 +27,11 @@ extension UISplitViewController {
 			.take(until: rx.deallocating)
 			.bind(to: rx.collapseSecondaryOntoPrimary)
 	}
+}
+
+private func detailScene(earthquake: Earthquake) -> Scene<Never> {
+	UINavigationController(
+		rootViewController: EarthquakeDetailViewController.create { $0.connect(earthquake: earthquake) }
+	)
+	.scene { _ in Observable<Never>.never() }
 }

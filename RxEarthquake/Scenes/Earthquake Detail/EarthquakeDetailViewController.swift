@@ -11,7 +11,7 @@ import RxSwift
 import UIKit
 
 final class EarthquakeDetailViewController: UITableViewController {
-	
+
 	@IBOutlet weak var depthLabel: UILabel!
 	@IBOutlet weak var distanceLabel: UILabel!
 	@IBOutlet weak var magnitudeLabel: UILabel!
