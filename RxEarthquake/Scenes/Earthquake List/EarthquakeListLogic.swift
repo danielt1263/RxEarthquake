@@ -12,7 +12,7 @@ import RxSwift
 
 enum EarthquakeListLogic {
 
-	static func request(refreshTrigger: Observable<Void>, appearTrigger: Observable<Bool>) -> Observable<Endpoint<[Earthquake]>> {
+	static func request(refreshTrigger: Observable<Void>, appearTrigger: Observable<Bool>) -> Observable<Endpoint<EarthquakeSummary>> {
 		Observable.merge(
 			refreshTrigger,
 			appearTrigger.map(to: ())
@@ -20,9 +20,9 @@ enum EarthquakeListLogic {
 			.map { .earthquakeSummary }
 	}
 
-	static func cellData(earthquakeData: Observable<[Earthquake]>) -> Observable<[EarthquakeCellDisplay]> {
-		earthquakeData
-			.map { $0.map { EarthquakeCellDisplay(earthquake: $0) } }
+	static func cellData(earthquakeSummary: Observable<EarthquakeSummary>) -> Observable<[EarthquakeCellDisplay]> {
+		earthquakeSummary
+			.map { try Earthquake.earthquakes(from: $0).map { EarthquakeCellDisplay(earthquake: $0) } }
 	}
 
 	static func chooseEarthquake(trigger: Observable<IndexPath>, earthquakes: Observable<[Earthquake]>) -> Observable<Earthquake> {
@@ -36,16 +36,6 @@ struct EarthquakeCellDisplay {
 	let date: String
 	let magnitude: String
 	let imageName: String
-}
-
-private extension Endpoint where T == [Earthquake] {
-	static let earthquakeSummary: Endpoint = {
-		let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson")!
-		return Endpoint(
-			request: URLRequest(url: url),
-			response: Earthquake.earthquakes(from:)
-		)
-	}()
 }
 
 private extension EarthquakeCellDisplay {

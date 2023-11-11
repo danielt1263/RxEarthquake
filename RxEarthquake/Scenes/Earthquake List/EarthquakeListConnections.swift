@@ -15,7 +15,7 @@ extension EarthquakeListViewController {
 	func connect() -> Observable<Earthquake> {
 		let api = API()
 		
-		let earthquakes = EarthquakeListLogic.request(
+		let earthquakeSummary = EarthquakeListLogic.request(
 			refreshTrigger: refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
 			appearTrigger: rx.viewDidAppear
 		)
@@ -27,7 +27,7 @@ extension EarthquakeListViewController {
 		title = "Earthquakes"
 
 		tableView.dataSource = nil
-		EarthquakeListLogic.cellData(earthquakeData: earthquakes)
+		EarthquakeListLogic.cellData(earthquakeSummary: earthquakeSummary)
 			.bind(to: tableView.rx.items(cellIdentifier: "Cell", cellType: EarthquakeTableViewCell.self)) { _, element, cell in
 				cell.placeLabel.text = element.place
 				cell.dateLabel.text = element.date
